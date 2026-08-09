@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard — Padmodaya Campus</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="admin.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- LOGIN -->
+  <div id="loginScreen" class="login-wrap">
+    <div class="login-bg"></div>
+    <div class="login-card">
+      <div class="login-logo">🛡️</div>
+      <h1>Admin Dashboard</h1>
+      <p class="login-sub">Padmodaya Campus · Ghorahi</p>
+      <form id="loginForm">
+        <label>Password</label>
+        <div class="password-wrap">
+          <span class="lock-icon">🔒</span>
+          <input type="password" id="passwordInput" placeholder="Enter admin password" autofocus />
+          <button type="button" id="togglePw" class="pw-toggle">👁️</button>
+        </div>
+        <div class="login-error" id="loginError" style="display:none">❌ Incorrect password. Please try again.</div>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Sign In</button>
+      </form>
+      <p class="login-hint">Default password: <code>padmodaya2082</code></p>
+      <a href="../index.html" class="back-to-site">← Back to website</a>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dashboard" style="display:none">
+    <nav class="navbar">
+      <div class="container nav-inner">
+        <div class="brand">
+          <div class="brand-logo">🛡️</div>
+          <div>
+            <h1 class="brand-name">Admin Dashboard</h1>
+            <p class="brand-sub">Padmodaya Campus · Content Management</p>
+          </div>
+        </div>
+        <div style="display:flex;gap:0.5rem;align-items:center">
+          <a href="../index.html" class="btn btn-secondary btn-sm">🌐 View Site</a>
+          <button class="btn btn-sm" style="background:#F0F0F0;color:#6B6B6B" onclick="logout()">↩ Sign Out</button>
+        </div>
+      </div>
+      <div class="container">
+        <div class="admin-tabs">
+          <button class="admin-tab active" data-tab="overview" onclick="showAdminTab('overview')">📊 Overview</button>
+          <button class="admin-tab" data-tab="notices" onclick="showAdminTab('notices')">🔔 Notices</button>
+          <button class="admin-tab" data-tab="site" onclick="showAdminTab('site')">📄 Site Content</button>
+          <button class="admin-tab" data-tab="contact" onclick="showAdminTab('contact')">📞 Contact</button>
+          <button class="admin-tab" data-tab="settings" onclick="showAdminTab('settings')">⚙️ Settings</button>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container section">
+      <!-- OVERVIEW TAB -->
+      <div id="tab-overview" class="admin-panel active">
+        <h2 class="page-title">Welcome back, Admin</h2>
+        <p class="page-desc">Manage your campus website content from one place.</p>
+        <div class="stats-grid" id="overviewStats"></div>
+        <h3 class="section-title" style="margin-top:2rem">✨ Quick Actions</h3>
+        <div class="two-col-grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
+          <button class="quick-action" onclick="showAdminTab('notices')">
+            <div class="info-icon" style="background:#FF6B6B15;color:#FF6B6B">🔔</div>
+            <p class="quick-title">Manage Notices</p>
+            <p class="quick-desc">Add, edit, or remove notices</p>
+            <span class="link-btn">Open →</span>
+          </button>
+          <button class="quick-action" onclick="showAdminTab('site')">
+            <div class="info-icon" style="background:#B8A9E815;color:#B8A9E8">📄</div>
+            <p class="quick-title">Edit Site Content</p>
+            <p class="quick-desc">Update About, Mission, Vision</p>
+            <span class="link-btn">Open →</span>
+          </button>
+          <button class="quick-action" onclick="showAdminTab('contact')">
+            <div class="info-icon" style="background:#4ECDC415;color:#4ECDC4">📞</div>
+            <p class="quick-title">Contact Info</p>
+            <p class="quick-desc">Update address, phone, email</p>
+            <span class="link-btn">Open →</span>
+          </button>
+        </div>
+        <h3 class="section-title" style="margin-top:2rem">🔔 Recent Notices</h3>
+        <div class="notice-list" id="overviewRecent"></div>
+      </div>
+
+      <!-- NOTICES TAB -->
+      <div id="tab-notices" class="admin-panel">
+        <div class="admin-header">
+          <div>
+            <h2 class="page-title">Notices</h2>
+            <p class="page-desc">Manage announcements shown on the website and popup.</p>
+          </div>
+          <button class="btn btn-primary" onclick="openNoticeForm()">＋ Add Notice</button>
+        </div>
+
+        <div class="admin-filters">
+          <input type="text" id="noticeSearch" placeholder="🔍 Search notices..." class="search-input" oninput="renderAdminNotices()" />
+          <div class="filter-tabs">
+            <button class="filter-tab active" data-priority="all" onclick="filterAdminNotices('all')">All</button>
+            <button class="filter-tab" data-priority="urgent" onclick="filterAdminNotices('urgent')">Urgent</button>
+            <button class="filter-tab" data-priority="important" onclick="filterAdminNotices('important')">Important</button>
+            <button class="filter-tab" data-priority="normal" onclick="filterAdminNotices('normal')">Normal</button>
+          </div>
+        </div>
+
+        <div class="notice-list" id="adminNoticeList"></div>
+      </div>
+
+      <!-- SITE CONTENT TAB -->
+      <div id="tab-site" class="admin-panel">
+        <div class="admin-header">
+          <div>
+            <h2 class="page-title">Site Content</h2>
+            <p class="page-desc">Edit the About, Mission, Vision, and Hero sections.</p>
+          </div>
+          <button class="btn btn-primary" onclick="saveSiteContent()">💾 Save Changes</button>
+        </div>
+
+        <div class="form-card">
+          <h3 class="form-section">🏠 Hero Section</h3>
+          <label>Tagline</label>
+          <input type="text" id="siteHeroTagline" />
+          <label>Description</label>
+          <textarea id="siteHeroDescription" rows="3"></textarea>
+        </div>
+
+        <div class="form-card">
+          <h3 class="form-section">ℹ️ About Campus</h3>
+          <textarea id="siteAbout" rows="8"></textarea>
+        </div>
+
+        <div class="two-col-grid">
+          <div class="form-card">
+            <h3 class="form-section">✨ Mission</h3>
+            <textarea id="siteMission" rows="6"></textarea>
+          </div>
+          <div class="form-card">
+            <h3 class="form-section">🏆 Vision</h3>
+            <textarea id="siteVision" rows="6"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTACT TAB -->
+      <div id="tab-contact" class="admin-panel">
+        <div class="admin-header">
+          <div>
+            <h2 class="page-title">Contact Information</h2>
+            <p class="page-desc">Update address, phone numbers, email, and social links.</p>
+          </div>
+          <button class="btn btn-primary" onclick="saveContact()">💾 Save Changes</button>
+        </div>
+
+        <div class="form-card">
+          <label>📍 Address</label>
+          <input type="text" id="contactAddress" />
+          <label>📞 Campus Office Phone</label>
+          <input type="text" id="contactPhone" />
+          <label>📞 Campus Head Mobile</label>
+          <input type="text" id="contactMobile1" />
+          <label>📞 Administration Mobile</label>
+          <input type="text" id="contactMobile2" />
+          <label>✉️ Email</label>
+          <input type="email" id="contactEmail" />
+          <label>📘 Facebook URL</label>
+          <input type="url" id="contactFacebook" />
+        </div>
+      </div>
+
+      <!-- SETTINGS TAB -->
+      <div id="tab-settings" class="admin-panel">
+        <h2 class="page-title">Settings</h2>
+        <p class="page-desc">Backup, restore, or reset your website data.</p>
+
+        <div class="form-card">
+          <h3 class="form-section">💾 Export Data</h3>
+          <p class="form-help">Download a JSON backup of all site content and notices. Save this file safely.</p>
+          <button class="btn btn-primary" onclick="exportData()">⬇️ Download Backup</button>
+        </div>
+
+        <div class="form-card">
+          <h3 class="form-section">📥 Import Data</h3>
+          <p class="form-help">Restore website data from a previously downloaded backup.</p>
+          <input type="file" id="importFile" accept=".json" onchange="importData(event)" />
+        </div>
+
+        <div class="form-card danger-card">
+          <h3 class="form-section" style="color:#DC2626">⚠️ Reset All Data</h3>
+          <p class="form-help">Restore all content and notices to the original default values. This cannot be undone.</p>
+          <button class="btn" style="background:#FF6B6B;color:white" onclick="resetAll()">🗑️ Reset to Defaults</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTICE FORM MODAL -->
+  <div class="modal-overlay" id="noticeFormModal" onclick="closeNoticeForm(event)">
+    <div class="modal" style="max-width:36rem" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-header-icon" style="background:#B8A9E820">📝</div>
+          <h3 id="noticeFormTitle">Add Notice</h3>
+        </div>
+        <button class="modal-close" onclick="closeNoticeForm()">✕</button>
+      </div>
+      <form id="noticeForm" class="modal-body form-body">
+        <input type="hidden" id="noticeId" />
+        <label>Title</label>
+        <input type="text" id="noticeTitle" required placeholder="Notice title" />
+        <label>Content</label>
+        <textarea id="noticeContent" rows="5" required placeholder="Full notice text..."></textarea>
+        <div class="form-row">
+          <div>
+            <label>Date</label>
+            <input type="date" id="noticeDate" required />
+          </div>
+          <div>
+            <label>Priority</label>
+            <select id="noticePriority">
+              <option value="normal">Normal</option>
+              <option value="important">Important</option>
+              <option value="urgent">Urgent</option>
+            </select>
+          </div>
+        </div>
+        <div class="active-toggle">
+          <input type="checkbox" id="noticeActive" checked />
+          <div>
+            <label for="noticeActive" style="font-weight:600">Active</label>
+            <p class="form-help">When active, this notice appears on the website and in the popup.</p>
+          </div>
+        </div>
+        <div class="form-error" id="noticeFormError" style="display:none"></div>
+        <div style="display:flex;gap:0.75rem;padding-top:0.75rem;border-top:1px solid #F0F0F0">
+          <button type="submit" class="btn btn-primary">💾 Save</button>
+          <button type="button" class="btn btn-secondary" onclick="closeNoticeForm()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast"></div>
+
+  <script src="../js/data.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
