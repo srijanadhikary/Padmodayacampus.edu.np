@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Padmodaya Campus — Ghorahi-17, Dang</title>
+  <meta name="description" content="Padmodaya Campus is a TU-affiliated community campus in Ghorahi-17, Dang offering BBS and BSc programs." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <!-- NAVIGATION -->
+  <nav class="navbar">
+    <div class="container nav-inner">
+      <a href="#home" class="brand" onclick="showPage('home')">
+        <div class="brand-logo">🎓</div>
+        <div>
+          <h1 class="brand-name">Padmodaya Campus</h1>
+          <p class="brand-sub">Ghorahi-17, Dang · TU Affiliated</p>
+        </div>
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="#home" onclick="showPage('home')" class="nav-link active" data-page="home">Home</a>
+        <a href="#about" onclick="showPage('about')" class="nav-link" data-page="about">About</a>
+        <a href="#programs" onclick="showPage('programs')" class="nav-link" data-page="programs">Programs</a>
+        <a href="#admissions" onclick="showPage('admissions')" class="nav-link" data-page="admissions">Admissions</a>
+        <a href="#notices" onclick="showPage('notices')" class="nav-link" data-page="notices">Notices</a>
+        <a href="#facilities" onclick="showPage('facilities')" class="nav-link" data-page="facilities">Facilities</a>
+        <a href="#contact" onclick="showPage('contact')" class="nav-link" data-page="contact">Contact</a>
+        <a href="admin/index.html" class="nav-link admin-link">Admin</a>
+      </div>
+      <button class="nav-toggle" onclick="toggleMenu()">☰</button>
+    </div>
+  </nav>
+
+  <!-- HOME PAGE -->
+  <section id="page-home" class="page active">
+    <div class="hero">
+      <div class="container">
+        <span class="badge badge-lilac">✨ Admissions Open · 2082</span>
+        <h1 class="hero-title">Padmodaya <span class="text-lilac">Campus</span></h1>
+        <p class="hero-nepali">पद्मोदय क्याम्पस, घोराही, दाङ</p>
+        <p class="hero-tagline">Quality Education at Affordable Cost</p>
+        <p class="hero-desc">One and only a renowned public campus of Lumbini province providing Bachelor level faculties of Management (BBS) and Science (BSc) affiliated to Tribhuvan University, Nepal.</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" onclick="showPage('admissions')">🎓 Apply for Admission</button>
+          <button class="btn btn-secondary" onclick="showPage('programs')">Explore Programs →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#B8A9E815;color:#B8A9E8">📅</div>
+          <div class="stat-value">2013</div>
+          <div class="stat-label">Established</div>
+          <div class="stat-sub">AD (2070 BS)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#F5A62315;color:#F5A623">📚</div>
+          <div class="stat-value">2</div>
+          <div class="stat-label">Programs</div>
+          <div class="stat-sub">BBS · BSc</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#4ECDC415;color:#4ECDC4">🧪</div>
+          <div class="stat-value">48</div>
+          <div class="stat-label">BSc Seats</div>
+          <div class="stat-sub">Physical &amp; Bio</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:#4ADE8015;color:#4ADE80">🏆</div>
+          <div class="stat-value">TU</div>
+          <div class="stat-label">Affiliation</div>
+          <div class="stat-sub">Tribhuvan Univ.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="section-header">
+        <h2 class="section-title">📚 Academic Programs</h2>
+        <button class="link-btn" onclick="showPage('programs')">View all →</button>
+      </div>
+      <div class="programs-grid">
+        <div class="program-card">
+          <div class="program-icon" style="background:#F5A62315;color:#F5A623">👥</div>
+          <span class="badge badge-amber">4 Years</span>
+          <h3>Bachelor of Business Studies</h3>
+          <p class="program-sub">BBS · Management Faculty</p>
+          <p class="program-desc">A four-year full-time program covering business, finance, accounting, and management principles.</p>
+          <div class="program-meta">
+            <span>✓ D+ Aggregate</span>
+            <span>🕒 Morning Shift</span>
+          </div>
+        </div>
+        <div class="program-card">
+          <div class="program-icon" style="background:#4ECDC415;color:#4ECDC4">🧪</div>
+          <span class="badge badge-teal">4 Years</span>
+          <h3>Bachelor of Science (General)</h3>
+          <p class="program-sub">BSc · Physical &amp; Biological · 48 Seats</p>
+          <p class="program-desc">A four-year full-time science program with theory, practical, and research-based learning.</p>
+          <div class="program-meta">
+            <span>✓ C Aggregate + Entrance</span>
+            <span>🕒 6:00 AM</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container section">
+      <div class="section-header">
+        <h2 class="section-title">🔔 Latest Notices</h2>
+        <button class="link-btn" onclick="showPage('notices')">View all →</button>
+      </div>
+      <div class="notice-list" id="homeNoticeList"></div>
+    </div>
+  </section>
+
+  <!-- ABOUT PAGE -->
+  <section id="page-about" class="page">
+    <div class="container section">
+      <span class="badge badge-teal">ℹ️ About Us</span>
+      <h1 class="page-title">Our Story</h1>
+      <p class="page-desc" id="aboutText"></p>
+
+      <div class="two-col-grid">
+        <div class="info-card">
+          <div class="info-icon" style="background:#B8A9E815;color:#B8A9E8">✨</div>
+          <h3>MISSION</h3>
+          <p id="missionText"></p>
+        </div>
+        <div class="info-card">
+          <div class="info-icon" style="background:#F5A62315;color:#F5A623">🏆</div>
+          <h3>VISION</h3>
+          <p id="visionText"></p>
+        </div>
+      </div>
+
+      <h2 class="section-title" style="margin-top:2rem">👥 Leadership</h2>
+      <div class="leaders-grid">
+        <div class="leader-card">
+          <div class="leader-avatar" style="background:#B8A9E820;color:#B8A9E8">TA</div>
+          <p class="leader-name">Tara Prasad Adhikari</p>
+          <p class="leader-role">President</p>
+        </div>
+        <div class="leader-card">
+          <div class="leader-avatar" style="background:#F5A62320;color:#F5A623">BA</div>
+          <p class="leader-name">Bharatamani Aryal</p>
+          <p class="leader-role">Vice President</p>
+        </div>
+        <div class="leader-card">
+          <div class="leader-avatar" style="background:#4ECDC420;color:#4ECDC4">GN</div>
+          <p class="leader-name">Govind Prasad Neupane</p>
+          <p class="leader-role">Treasurer</p>
+        </div>
+        <div class="leader-card">
+          <div class="leader-avatar" style="background:#4ADE8020;color:#4ADE80">KP</div>
+          <p class="leader-name">Kiran Poudel</p>
+          <p class="leader-role">Campus Chief</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAMS PAGE -->
+  <section id="page-programs" class="page">
+    <div class="container section">
+      <span class="badge badge-amber">📚 Academic Programs</span>
+      <h1 class="page-title">Bachelor Level Programs</h1>
+      <p class="page-desc">Two four-year full-time undergraduate programs affiliated with Tribhuvan University, offered in morning shift starting 6:00 AM.</p>
+
+      <div class="program-detail">
+        <div class="program-detail-header">
+          <div class="program-icon-lg" style="background:#F5A62315;color:#F5A623">👥</div>
+          <div>
+            <h2>Bachelor of Business Studies</h2>
+            <p>BBS · Management Faculty · Tribhuvan University</p>
+          </div>
+        </div>
+        <div class="mini-info-grid">
+          <div class="mini-info"><div class="mini-icon" style="background:#4ECDC415;color:#4ECDC4">🕒</div><div><div class="mini-label">Duration</div><div class="mini-value">4 Years</div></div></div>
+          <div class="mini-info"><div class="mini-icon" style="background:#B8A9E815;color:#B8A9E8">🎓</div><div><div class="mini-label">Level</div><div class="mini-value">Bachelor</div></div></div>
+          <div class="mini-info"><div class="mini-icon" style="background:#4ADE8015;color:#4ADE80">✓</div><div><div class="mini-label">Eligibility</div><div class="mini-value">D+ Aggregate</div></div></div>
+          <div class="mini-info"><div class="mini-icon" style="background:#F5A62315;color:#F5A623">🕒</div><div><div class="mini-label">Shift</div><div class="mini-value">Morning</div></div></div>
+        </div>
+        <p>The BBS program provides students with a strong foundation in business, finance, accounting, and management principles, preparing them for careers in the corporate sector, entrepreneurship, and further studies.</p>
+      </div>
+
+      <div class="program-detail">
+        <div class="program-detail-header">
+          <div class="program-icon-lg" style="background:#4ECDC415;color:#4ECDC4">🧪</div>
+          <div>
+            <h2>Bachelor of Science (General)</h2>
+            <p>BSc · Physical &amp; Biological Group · Tribhuvan University</p>
+          </div>
+        </div>
+        <div class="mini-info-grid">
+          <div class="mini-info"><div class="mini-icon" style="background:#4ECDC415;color:#4ECDC4">🕒</div><div><div class="mini-label">Duration</div><div class="mini-value">4 Years</div></div></div>
+          <div class="mini-info"><div class="mini-icon" style="background:#B8A9E815;color:#B8A9E8">👥</div><div><div class="mini-label">Seats</div><div class="mini-value">48</div></div></div>
+          <div class="mini-info"><div class="mini-icon" style="background:#4ADE8015;color:#4ADE80">✓</div><div><div class="mini-label">Eligibility</div><div class="mini-value">C + Entrance</div></div></div>
+          <div class="mini-info"><div class="mini-icon" style="background:#F5A62315;color:#F5A623">🕒</div><div><div class="mini-label">Shift</div><div class="mini-value">6:00 AM</div></div></div>
+        </div>
+        <p>The BSc program covers core subjects from the Physical and Biological groups with theory and practical components. The curriculum includes Scientific Communication, Applied Statistics, Research Methodology, Computational Course, and a final-year major subject with project/field work.</p>
+        <h4 class="curriculum-title">📖 Curriculum Structure</h4>
+        <div class="curriculum-list">
+          <div class="curriculum-row"><span class="badge badge-lilac">1st Year</span><span>3 core subjects (Physical/Biological) + Scientific Communication</span></div>
+          <div class="curriculum-row"><span class="badge badge-amber">2nd Year</span><span>Continuation of core subjects + Applied Statistics</span></div>
+          <div class="curriculum-row"><span class="badge badge-teal">3rd Year</span><span>2 core subjects + Research Methodology + Electives</span></div>
+          <div class="curriculum-row"><span class="badge badge-green">4th Year</span><span>1 Major + Project/Field Work + Computational + Interdisciplinary</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADMISSIONS PAGE -->
+  <section id="page-admissions" class="page">
+    <div class="container section">
+      <span class="badge badge-green">📝 Admissions</span>
+      <h1 class="page-title">Admission Process</h1>
+      <p class="page-desc">Everything you need to know about applying to BBS or BSc at Padmodaya Campus.</p>
+
+      <div class="two-col-grid">
+        <div class="info-card">
+          <h3>👥 BBS Eligibility</h3>
+          <p>Students who have passed +2 or equivalent with a minimum aggregate of <strong>D+ and above</strong> are eligible to apply for the Management faculty.</p>
+        </div>
+        <div class="info-card">
+          <h3>🧪 BSc Eligibility</h3>
+          <p>Aggregate score of <strong>C and above</strong> is required. BSc admission also requires passing the entrance examination conducted by Tribhuvan University.</p>
+        </div>
+      </div>
+
+      <div class="two-col-grid" style="margin-top:1.5rem">
+        <div class="info-card">
+          <h3>📄 Required Documents</h3>
+          <ul class="check-list">
+            <li>✓ SEE Marksheet</li>
+            <li>✓ Plus Two Transcript</li>
+            <li>✓ Character Certificate</li>
+            <li>✓ Transfer Certificate</li>
+            <li>✓ Migration Certificate (Original)</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h3>🏆 Scholarships</h3>
+          <ul class="check-list">
+            <li>✨ Campus toppers</li>
+            <li>✨ Economically deprived students</li>
+            <li>✨ Female BSc students (Provincial Government)</li>
+            <li>✨ Dalit, minority, disabled, conflict-affected students</li>
+            <li>✨ BBS students scoring 60%+ get 1-year exemption</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="cta-card">
+        <div class="cta-icon" style="background:#B8A9E815;color:#B8A9E8">📞</div>
+        <h3>Ready to Apply?</h3>
+        <p>Contact the campus administration office to request application forms and program details.</p>
+        <div class="cta-actions">
+          <a href="tel:+9779857863574" class="btn btn-primary">📞 Call: 9857863574</a>
+          <button class="btn btn-secondary" onclick="showPage('contact')">✉️ Contact Details</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOTICES PAGE -->
+  <section id="page-notices" class="page">
+    <div class="container section">
+      <span class="badge badge-coral">🔔 Notices &amp; Announcements</span>
+      <h1 class="page-title">Campus Notices</h1>
+      <p class="page-desc">Stay updated with the latest announcements, events, and important information from Padmodaya Campus.</p>
+
+      <div class="filter-tabs" id="noticeFilters">
+        <button class="filter-tab active" data-filter="all" onclick="filterNotices('all')">All</button>
+        <button class="filter-tab" data-filter="urgent" onclick="filterNotices('urgent')">Urgent</button>
+        <button class="filter-tab" data-filter="important" onclick="filterNotices('important')">Important</button>
+        <button class="filter-tab" data-filter="normal" onclick="filterNotices('normal')">Normal</button>
+      </div>
+
+      <div class="notice-list" id="allNoticeList"></div>
+    </div>
+  </section>
+
+  <!-- FACILITIES PAGE -->
+  <section id="page-facilities" class="page">
+    <div class="container section">
+      <span class="badge badge-lilac">🏢 Campus Facilities</span>
+      <h1 class="page-title">World-Class Infrastructure</h1>
+      <p class="page-desc">Padmodaya Campus offers a complete academic environment with modern facilities to support learning, research, and student life.</p>
+
+      <div class="facilities-grid">
+        <div class="facility-card"><div class="fac-icon" style="background:#4ECDC415;color:#4ECDC4">🧪</div><h4>Science Laboratories</h4><p>Fully-equipped labs for Physics, Chemistry, Biology</p></div>
+        <div class="facility-card"><div class="fac-icon" style="background:#B8A9E815;color:#B8A9E8">📚</div><h4>Library &amp; E-Library</h4><p>Free books and digital resources</p></div>
+        <div class="facility-card"><div class="fac-icon" style="background:#F5A62315;color:#F5A623">🚌</div><h4>Transportation</h4><p>Campus bus for students living further away</p></div>
+        <div class="facility-card"><div class="fac-icon" style="background:#FF6B6B15;color:#FF6B6B">📽️</div><h4>Projector Classrooms</h4><p>Multimedia-enabled learning environment</p></div>
+        <div class="facility-card"><div class="fac-icon" style="background:#4ADE8015;color:#4ADE80">🏆</div><h4>Playing Ground</h4><p>Open ground for sports and activities</p></div>
+        <div class="facility-card"><div class="fac-icon" style="background:#4ECDC415;color:#4ECDC4">💻</div><h4>Computer Lab</h4><p>Modern computers with internet access</p></div>
+        <div class="facility-card"><div class="fac-icon" style="background:#F5A62315;color:#F5A623">☕</div><h4>Cafeteria</h4><p>On-campus food and refreshments</p></div>
+        <div class="facility-card"><div class="fac-icon" style="background:#B8A9E815;color:#B8A9E8">🏛️</div><h4>Conference Hall</h4><p>For seminars, orientations, and events</p></div>
+        <div class="facility-card"><div class="fac-icon" style="background:#FF6B6B15;color:#FF6B6B">📹</div><h4>CCTV Surveillance</h4><p>24/7 campus security</p></div>
+        <div class="facility-card"><div class="fac-icon" style="background:#4ADE8015;color:#4ADE80">🏆</div><h4>Scholarships</h4><p>Multiple scholarship provisions available</p></div>
+        <div class="facility-card"><div class="fac-icon" style="background:#4ECDC415;color:#4ECDC4">👥</div><h4>Counselling</h4><p>Academic and career guidance</p></div>
+        <div class="facility-card"><div class="fac-icon" style="background:#F5A62315;color:#F5A623">✨</div><h4>ECA Activities</h4><p>Extra-curricular events and clubs</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT PAGE -->
+  <section id="page-contact" class="page">
+    <div class="container section">
+      <span class="badge badge-teal">📞 Get in Touch</span>
+      <h1 class="page-title">Contact Us</h1>
+      <p class="page-desc">Have questions? Reach out to us through any of the channels below.</p>
+
+      <div class="two-col-grid">
+        <div class="info-card">
+          <h3>🏢 CAMPUS INFORMATION</h3>
+          <div class="contact-rows">
+            <div class="contact-row"><div class="contact-icon" style="background:#F5A62315;color:#F5A623">📍</div><div><div class="contact-label">Address</div><div class="contact-value">Ghorahi-17, Chaughera, Dang, Lumbini Province, Nepal</div></div></div>
+            <a href="tel:+97782590754" class="contact-row"><div class="contact-icon" style="background:#4ECDC415;color:#4ECDC4">📞</div><div><div class="contact-label">Campus Office</div><div class="contact-value">082-590754</div></div></a>
+            <a href="tel:+9779857863574" class="contact-row"><div class="contact-icon" style="background:#B8A9E815;color:#B8A9E8">📞</div><div><div class="contact-label">Campus Head</div><div class="contact-value">9857863574</div></div></a>
+            <a href="tel:+9779847857046" class="contact-row"><div class="contact-icon" style="background:#4ADE8015;color:#4ADE80">📞</div><div><div class="contact-label">Administration</div><div class="contact-value">9847857046</div></div></a>
+            <a href="mailto:padmodayacampus@gmail.com" class="contact-row"><div class="contact-icon" style="background:#FF6B6B15;color:#FF6B6B">✉️</div><div><div class="contact-label">Email</div><div class="contact-value">padmodayacampus@gmail.com</div></div></a>
+            <a href="https://www.facebook.com/profile.php?id=100063941974490" target="_blank" class="contact-row"><div class="contact-icon" style="background:#4ECDC415;color:#4ECDC4">📘</div><div><div class="contact-label">Facebook</div><div class="contact-value">Padmodaya Campus</div></div></a>
+          </div>
+        </div>
+
+        <div>
+          <div class="info-card">
+            <h3>🕒 CLASS TIMINGS</h3>
+            <p>Bachelor-level classes run in the morning shift.</p>
+            <div class="time-box">
+              <div class="time-icon" style="background:#F5A62315;color:#F5A623">🕕</div>
+              <div>
+                <div class="time-value">6:00 AM onwards</div>
+                <div class="time-sub">Morning Shift · All programs</div>
+              </div>
+            </div>
+          </div>
+          <div class="info-card" style="margin-top:1rem">
+            <h3>📍 FIND US</h3>
+            <div class="map-wrap">
+              <iframe title="Padmodaya Campus Location" width="100%" height="220" frameborder="0" style="border:0"
+                src="https://www.openstreetmap.org/export/embed.html?bbox=82.4700%2C28.0200%2C82.5300%2C28.0700&layer=mapnik&marker=28.0450%2C82.4950"
+                allowfullscreen></iframe>
+            </div>
+            <p class="map-caption">Ghorahi-17, Chaughera, Dang</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <div class="brand-logo">🎓</div>
+        <div>
+          <h3>Padmodaya Campus</h3>
+          <p>पद्मोदय क्याम्पस, घोराही</p>
+        </div>
+      </div>
+      <div class="footer-cols">
+        <div>
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#about" onclick="showPage('about')">About</a></li>
+            <li><a href="#programs" onclick="showPage('programs')">Programs</a></li>
+            <li><a href="#admissions" onclick="showPage('admissions')">Admissions</a></li>
+            <li><a href="#contact" onclick="showPage('contact')">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <ul>
+            <li>📍 Ghorahi-17, Chaughera, Dang</li>
+            <li>📞 082-590754</li>
+            <li>✉️ padmodayacampus@gmail.com</li>
+            <li><a href="https://www.facebook.com/profile.php?id=100063941974490" target="_blank">📘 Facebook Page</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p>© <span id="year"></span> Padmodaya Campus. All rights reserved.</p>
+        <p>Affiliated to Tribhuvan University · Established 2070 BS (2013 AD)</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- NOTICE POPUP -->
+  <div class="modal-overlay" id="noticePopup" onclick="dismissPopup(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header" id="popupHeader">
+        <div class="modal-header-left">
+          <div class="modal-header-icon">🔔</div>
+          <div>
+            <h3>Latest Notice</h3>
+            <p id="popupDate"></p>
+          </div>
+        </div>
+        <button class="modal-close" onclick="dismissPopup()">✕</button>
+      </div>
+      <div class="modal-body">
+        <span id="popupPriority" class="badge"></span>
+        <h2 id="popupTitle"></h2>
+        <p id="popupContent"></p>
+      </div>
+      <div class="modal-footer">
+        <button class="link-btn" onclick="dismissPopup(); showPage('notices')">View all notices →</button>
+        <button class="btn btn-primary btn-sm" onclick="dismissPopup()">Got it</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTICE DETAIL MODAL -->
+  <div class="modal-overlay" id="noticeDetail" onclick="closeNoticeDetail(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <span>📅</span>
+          <p id="detailDate"></p>
+        </div>
+        <button class="modal-close" onclick="closeNoticeDetail()">✕</button>
+      </div>
+      <div class="modal-body">
+        <span id="detailPriority" class="badge"></span>
+        <h2 id="detailTitle"></h2>
+        <p id="detailContent"></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
