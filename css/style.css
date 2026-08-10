@@ -6,7 +6,7 @@ body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   background: #FAFAF8;
   color: #1A1A1A;
-  line-height: 1.6;
+  line-height: 3;
   -webkit-font-smoothing: antialiased;
 }
 a { color: inherit; text-decoration: none; }
