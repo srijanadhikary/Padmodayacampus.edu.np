@@ -39,7 +39,7 @@ ul { list-style: none; }
 }
 .brand:hover .brand-logo { background: #333; }
 .brand-name { font-size: 2rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
-.brand-sub { font-size: 0.625rem; color: #9B9B9B; line-height: 1.2; margin-top: 2px; }
+.brand-sub { font-size: 0.625rem; color: #ffffff; line-height: 1.2; margin-top: 2px; }
 
 .nav-links {
   display: flex; align-items: center; gap: 0.25rem;
