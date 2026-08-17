@@ -48,7 +48,7 @@ ul { list-style: none; }
 }
 .nav-link {
   padding: 0.5rem 0.9rem;
-  font-size: 0.875rem; font-weight: 500;
+  font-size: 1rem; font-weight: 500;
   color: #000000;
   border-radius: 999px;
   transition: all 0.2s;
