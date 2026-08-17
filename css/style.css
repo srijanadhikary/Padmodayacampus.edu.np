@@ -185,7 +185,7 @@ ul { list-style: none; }
 .program-icon {
   width: 48px; height: 48px; border-radius: 16px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 22px;
+  font-size: 36px;
   margin-bottom: 1rem;
 }
 .program-card h3 { font-size: 1.125rem; font-weight: 700; margin: 0.5rem 0 0.25rem; }
