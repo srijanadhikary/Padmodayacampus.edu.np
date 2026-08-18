@@ -21,7 +21,7 @@ const DEFAULT_DATA = {
   notices: [
     { 
   id: 1, 
-  title: "Admission Open for BBS & BSc 2083", 
+  title: "Admission Open for BBS and BSc 2083", 
   content: "Padmodaya Campus announces admission open for Bachelor of Business Studies (BBS) and Bachelor of Science (BSc) for the academic session 2082/083. Interested students are requested to contact the campus administration office for application forms and detailed information.", 
   date: "2026-08-09", 
   priority: "urgent", 
