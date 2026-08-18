@@ -462,7 +462,7 @@ ul { list-style: none; }
 .large-admission-btn {
     display: inline-block;
     padding: 18px 40px;        /* Makes the button physically larger */
-    background-color: #1a73e8;  /* Vibrant blue background color */
+    background-color: #F54927;  /* Vibrant blue background color */
     color: #ffffff;             /* White text color */
     font-family: Arial, sans-serif;
     font-size: 20px;            /* Larger text size */
@@ -476,7 +476,7 @@ ul { list-style: none; }
 
   /* Hover effect */
   .large-admission-btn:hover {
-    background-color: #1557b0;  /* Darker blue background on hover */
+    background-color: #F54927;  /* Darker blue background on hover */
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
     transform: translateY(-2px); /* Subtle lift effect */
   }
