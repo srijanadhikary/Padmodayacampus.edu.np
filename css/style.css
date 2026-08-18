@@ -459,3 +459,30 @@ ul { list-style: none; }
   border-top: 1px solid #F0F0F0;
   display: flex; align-items: center; justify-content: space-between;
 }
+.large-admission-btn {
+    display: inline-block;
+    padding: 18px 40px;        /* Makes the button physically larger */
+    background-color: #1a73e8;  /* Vibrant blue background color */
+    color: #ffffff;             /* White text color */
+    font-family: Arial, sans-serif;
+    font-size: 20px;            /* Larger text size */
+    font-weight: bold;
+    border: none;               /* Removes default browser border */
+    border-radius: 8px;         /* Rounded corners */
+    cursor: pointer;            /* Changes cursor to hand icon on hover */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15); /* Adds depth */
+    transition: all 0.2s ease;  /* Smooth transition for hover effects */
+  }
+
+  /* Hover effect */
+  .large-admission-btn:hover {
+    background-color: #1557b0;  /* Darker blue background on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px); /* Subtle lift effect */
+  }
+
+  /* Active/Click effect */
+  .large-admission-btn:active {
+    transform: translateY(0);    /* Pushes button down when clicked */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  }
