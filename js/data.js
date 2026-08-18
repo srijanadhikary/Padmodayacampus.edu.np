@@ -26,7 +26,6 @@ const DEFAULT_DATA = {
   date: "2026-08-09", 
   priority: "urgent", 
   active: true,
-  link: "https://forms.gle/wuwFLQTBqitLK4ab6" // <-- Add your form link here
 },
     { id: 2, title: "First Year Orientation Program 2082", content: "The first-year orientation program for newly admitted BBS and BSc students will be held on 2082/05/15 at the campus hall. All first-year students are required to attend. The program will include an introduction to faculty members, campus rules, and academic calendar.", date: "2026-08-01", priority: "important", active: true },
     { id: 3, title: "BSc Entrance Examination Notice", content: "Tribhuvan University has scheduled the BSc entrance examination for the upcoming academic session. Eligible candidates must fill the entrance form at the campus office within the deadline. Contact the administration for dates and further details.", date: "2026-07-20", priority: "important", active: true },
