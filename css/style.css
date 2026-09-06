@@ -14,20 +14,17 @@
 
     white-space: nowrap;
 }
-.brand-name {
-    margin: 0;
-    font-size: 2.35rem;
-    font-weight: 800;
-    letter-spacing: -1.2px;
-    line-height: 1;
-    font-family: "Poppins", "Inter", sans-serif;
+@media (max-width: 768px) {
+    .brand-name {
+        font-size: 1.65rem;
+        letter-spacing: -0.7px;
+    }
+}
 
-    background: linear-gradient(135deg, #0b2545, #1769aa);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-
-    white-space: nowrap;
+@media (max-width: 480px) {
+    .brand-name {
+        font-size: 1.4rem;
+    }
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth;
