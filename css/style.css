@@ -17,7 +17,7 @@
 @media (max-width: 768px) {
     .brand-name {
         font-size: 4rem;
-        letter-spacing: -0.7px;
+        letter-spacing: -0.7px; padding: -2;
     }
 }
 
