@@ -29,8 +29,8 @@ function showPage(pageId) {
 
 function renderRoute() {
   const hash = location.hash.slice(1);
-  const detail = Array.from(document.querySelectorAll('.program-detail[id]'))
-    .find(program => program.id === hash);
+  const target = document.getElementById(hash);
+  const detail = target?.matches('.faculty-group, .program-choice') ? target : null;
   const pageId = detail ? 'programs' : document.getElementById('page-' + hash) ? hash : 'home';
   document.querySelectorAll('.page').forEach(page => {
     page.classList.toggle('active', page.id === 'page-' + pageId);
@@ -43,12 +43,25 @@ function renderRoute() {
   });
   document.getElementById('navLinks').classList.remove('open');
   document.querySelector('.nav-toggle').setAttribute('aria-expanded', 'false');
+  document.querySelectorAll('.faculty-selector details').forEach(item => {
+    item.open = Boolean(detail && (item === detail || item.contains(detail)));
+  });
   if (detail) {
-    detail.focus({ preventScroll: true });
+    detail.querySelector('summary').focus({ preventScroll: true });
     detail.scrollIntoView({ block: 'start' });
   } else {
     window.scrollTo(0, 0);
   }
+}
+
+function renderProgramContent(programs) {
+  document.querySelectorAll('[data-program]').forEach(article => {
+    const program = programs[article.dataset.program];
+    article.querySelector('.program-content').innerHTML = Object.entries(PROGRAM_FIELDS)
+      .filter(([field]) => program[field])
+      .map(([field, label]) => `<section class="program-copy"><h3>${label}</h3><p>${escapeHTML(program[field])}</p></section>`)
+      .join('');
+  });
 }
 
 function toggleMenu() {
@@ -77,6 +90,6 @@ function dismissPopup(e){if(e&&e.target&&e.target.closest('.modal'))return;docum
 function openNoticeDetail(n){const p=PRIORITY_COLORS[n.priority]||PRIORITY_COLORS.normal;document.getElementById('detailDate').textContent=n.date;document.getElementById('detailTitle').textContent=n.title;document.getElementById('detailContent').textContent=n.content;document.getElementById('detailAttachment').innerHTML=attachmentHTML(n,'detail');const b=document.getElementById('detailPriority');b.className='badge '+p.label;b.textContent=n.priority;document.getElementById('noticeDetail').classList.add('open');}
 function closeNoticeDetail(e){if(e&&e.target&&e.target.closest('.modal'))return;document.getElementById('noticeDetail').classList.remove('open');}
 
-document.addEventListener('DOMContentLoaded',async()=>{document.getElementById('year').textContent=new Date().getFullYear();renderRoute();initSlider();try{DATA=await loadDataFromDB();}catch(e){DATA=await loadData();}renderSiteContent();renderSlider();renderNotices();renderDownloads();showLatestNoticePopup();});
+document.addEventListener('DOMContentLoaded',async()=>{document.getElementById('year').textContent=new Date().getFullYear();renderProgramContent(getPrograms());renderRoute();initSlider();try{DATA=await loadDataFromDB();}catch(e){DATA=await loadData();}renderSiteContent();renderProgramContent(DATA.programs || getPrograms());renderSlider();renderNotices();renderDownloads();showLatestNoticePopup();});
 
 window.addEventListener('hashchange', renderRoute);

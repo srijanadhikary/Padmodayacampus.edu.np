@@ -23,6 +23,54 @@ const DEFAULT_DATA = {
   ]
 };
 
+const PROGRAM_CATALOG = {
+  "bbs": {
+    "name": "Bachelor of Business Studies (BBS)",
+    "short": "BBS",
+    "duration": "4 years",
+    "admission": "D+ aggregate · Morning shift",
+    "overview": "The BBS program builds a foundation in business, finance, accounting and management. It prepares students for entry-level roles in business, entrepreneurship and further study."
+  },
+  "bba": {
+    "name": "Bachelor of Business Administration (BBA)",
+    "short": "BBA",
+    "duration": "4 years · 8 semesters",
+    "overview": "BBA develops practical skills in business decision-making, communication and management. Students learn how organisations operate and how managers use financial and market information to make decisions.",
+    "curriculum": "Core areas include accounting, finance, marketing, human resources, business communication and operations.",
+    "careers": "Possible paths include management trainee roles, marketing, sales, operations, human resources and entrepreneurship.",
+    "inquiry": true
+  },
+  "bsc": {
+    "name": "Bachelor of Science (General)",
+    "short": "BSc General",
+    "duration": "4 years",
+    "admission": "C aggregate + entrance examination · 48 seats · 6:00 AM",
+    "overview": "The BSc program offers Physical and Biological groups and combines theory with practical laboratory work.",
+    "curriculum": "Year 1 — Three core subjects and Scientific Communication.\nYear 2 — Continued core subjects and Applied Statistics.\nYear 3 — Two core subjects, Research Methodology and electives.\nYear 4 — Major subject, project or fieldwork, computational and interdisciplinary studies."
+  },
+  "csit": {
+    "name": "Bachelor of Science in Computer Science and Information Technology (BSc CSIT)",
+    "short": "BSc CSIT",
+    "duration": "4 years · 8 semesters",
+    "overview": "BSc CSIT combines the foundations of computer science with hands-on experience in designing, developing and testing software.",
+    "features": "Laboratory assignments develop practical skills in designing and troubleshooting software.\nThe final-year project takes a software idea from planning through development, testing and presentation.\nA supervised internship gives students experience with professional technical requirements.\nElectives can include mobile development, cloud computing, data or network security, depending on availability.",
+    "curriculum": "Years 1–2 — Programming, mathematics, statistics, computer systems, databases, networking and artificial intelligence.\nYear 3 — Algorithms, web technology, software engineering and electives.\nYear 4 — Advanced computing, electives, software project and industry internship.",
+    "speciality": "Students learn to break down technical problems, compare possible solutions and explain and test their decisions. Lab work, the project and the internship give students practical experience to discuss in interviews or build on in further study.",
+    "careers": "Software and web development · Mobile application development · Data analysis and database support · Software quality assurance · Networking and IT operations · Cybersecurity and cloud support\nGraduates can also pursue postgraduate study in computer science, information technology or related fields.",
+    "inquiry": true
+  }
+};
+
+const PROGRAM_FIELDS = {
+  "duration": "Duration",
+  "admission": "Admission Information",
+  "overview": "Program Overview",
+  "features": "Key Features",
+  "speciality": "What Makes This Program Distinctive",
+  "curriculum": "Course Content",
+  "careers": "Career Opportunities"
+};
+
 function cloneDefaults() { return JSON.parse(JSON.stringify(DEFAULT_DATA)); }
 
 async function loadDataFromDB() {
@@ -39,6 +87,7 @@ async function loadDataFromDB() {
   if (downloadResult.error) throw downloadResult.error;
 
   const data = cloneDefaults();
+  data.programs = getPrograms(siteResult.data);
   for (const row of (siteResult.data || [])) {
     if (row.key === 'site' && row.value) data.site = { ...data.site, ...row.value, contact: { ...data.site.contact, ...(row.value.contact || {}) } };
   }
@@ -46,6 +95,28 @@ async function loadDataFromDB() {
   if (sliderResult.data && sliderResult.data.length) data.sliders = sliderResult.data;
   if (downloadResult.data && downloadResult.data.length) data.downloads = downloadResult.data;
   return data;
+}
+
+function getPrograms(rows = []) {
+  const programs = JSON.parse(JSON.stringify(PROGRAM_CATALOG));
+  for (const [id, program] of Object.entries(programs)) {
+    const saved = rows.find(row => row.key === 'program-' + id)?.value;
+    for (const field of Object.keys(PROGRAM_FIELDS)) {
+      if (typeof saved?.[field] === 'string') program[field] = saved[field];
+    }
+  }
+  return programs;
+}
+
+async function saveProgramToDB(id, values) {
+  if (!Object.hasOwn(PROGRAM_CATALOG, id)) throw new Error('Unknown program.');
+  const client = await initSupabase();
+  const { error } = await client.from('site_settings').upsert({
+    key: 'program-' + id,
+    value: values,
+    updated_at: new Date().toISOString()
+  });
+  if (error) throw error;
 }
 
 async function saveSiteToDB(site) {
