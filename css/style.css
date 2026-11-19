@@ -1045,3 +1045,25 @@ body{font-size:16px;background:#fff;color:var(--ref-ink);line-height:1.7}
 @media (max-width: 600px) {
   .news-grid { grid-template-columns: 1fr; }
 }
+
+/* Keep the automatic notice smaller than the full notice detail. */
+#noticePopup .modal {
+  position: relative;
+  width: min(100%, 390px);
+  max-height: 85vh;
+  max-height: 85dvh;
+  overflow-y: auto;
+  border: 0;
+  box-shadow: 0 12px 36px rgba(5, 22, 43, .2);
+}
+#noticePopup .modal-close {
+  position: absolute;
+  top: .55rem;
+  right: .55rem;
+}
+#noticePopup .modal-body { padding: .9rem 1rem .65rem; }
+#noticePopup .modal-body .badge { margin: 0 .25rem .25rem 0; }
+#noticePopup #popupTitle { margin: 0 2.25rem .4rem 0; line-height: 1.35; }
+#noticePopup #popupAttachment:not(:empty) { margin-top: .6rem; }
+#noticePopup #popupAttachment img { max-height: 42vh !important; margin-top: 0 !important; }
+#noticePopup .modal-footer { padding: .55rem 1rem .75rem; }
