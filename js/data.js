@@ -88,6 +88,7 @@ async function loadDataFromDB() {
 
   const data = cloneDefaults();
   data.programs = getPrograms(siteResult.data);
+  data.leadership = getLeadership(siteResult.data);
   for (const row of (siteResult.data || [])) {
     if (row.key === 'site' && row.value) data.site = { ...data.site, ...row.value, contact: { ...data.site.contact, ...(row.value.contact || {}) } };
   }
@@ -115,6 +116,30 @@ async function saveProgramToDB(id, values) {
     key: 'program-' + id,
     value: values,
     updated_at: new Date().toISOString()
+  });
+  if (error) throw error;
+}
+
+const DEFAULT_LEADERSHIP = [
+  { id: 'chief', name: 'Yubraj Bhandari', role: 'Campus Chief', order: 10, active: true },
+  { id: 'chairman', name: 'Tara Prasad Adhikari', role: 'Chairman', order: 20, active: true }
+];
+
+function getLeadership(rows = []) {
+  const profiles = new Map(DEFAULT_LEADERSHIP.map(profile => [profile.id, { ...profile }]));
+  for (const { key, value } of rows || []) {
+    if (!key.startsWith('leadership-') || !value || typeof value !== 'object') continue;
+    const id = key.slice('leadership-'.length);
+    profiles.set(id, { ...profiles.get(id), ...value, id });
+  }
+  return [...profiles.values()].sort((a, b) => (a.order || 0) - (b.order || 0));
+}
+
+async function saveLeadershipProfile(profile) {
+  const { id, ...value } = profile;
+  const client = await initSupabase();
+  const { error } = await client.from('site_settings').upsert({
+    key: 'leadership-' + id, value, updated_at: new Date().toISOString()
   });
   if (error) throw error;
 }

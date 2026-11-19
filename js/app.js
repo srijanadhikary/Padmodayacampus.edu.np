@@ -64,6 +64,26 @@ function renderProgramContent(programs) {
   });
 }
 
+function renderLeadership(profiles) {
+  const active = profiles.filter(profile => profile.active !== false && profile.name && profile.role);
+  document.querySelectorAll('[data-leadership]').forEach(grid => {
+    grid.closest('.leadership-section').hidden = !active.length;
+    grid.innerHTML = active.map(profile => {
+      const initials = profile.name.trim().split(/\s+/).slice(0, 2).map(word => word[0]).join('');
+      const portrait = /^https:\/\//i.test(profile.photo_url || '')
+        ? `<img class="leadership-photo" src="${escapeHTML(profile.photo_url)}" alt="" loading="lazy" width="88" height="88">`
+        : `<span class="leadership-photo leadership-initials" aria-hidden="true">${escapeHTML(initials)}</span>`;
+      return `<article class="leadership-card">
+        <header class="leadership-person">
+          ${portrait}
+          <div><h3>${escapeHTML(profile.name)}</h3><p>${escapeHTML(profile.role)}</p></div>
+        </header>
+        ${profile.message ? `<div class="leadership-message">${escapeHTML(profile.message)}</div>` : ''}
+      </article>`;
+    }).join('');
+  });
+}
+
 function toggleMenu() {
   const open = document.getElementById('navLinks').classList.toggle('open');
   document.querySelector('.nav-toggle').setAttribute('aria-expanded', String(open));
@@ -90,6 +110,6 @@ function dismissPopup(e){if(e&&e.target&&e.target.closest('.modal'))return;docum
 function openNoticeDetail(n){const p=PRIORITY_COLORS[n.priority]||PRIORITY_COLORS.normal;document.getElementById('detailDate').textContent=n.date;document.getElementById('detailTitle').textContent=n.title;document.getElementById('detailContent').textContent=n.content;document.getElementById('detailAttachment').innerHTML=attachmentHTML(n,'detail');const b=document.getElementById('detailPriority');b.className='badge '+p.label;b.textContent=n.priority;document.getElementById('noticeDetail').classList.add('open');}
 function closeNoticeDetail(e){if(e&&e.target&&e.target.closest('.modal'))return;document.getElementById('noticeDetail').classList.remove('open');}
 
-document.addEventListener('DOMContentLoaded',async()=>{document.getElementById('year').textContent=new Date().getFullYear();renderProgramContent(getPrograms());renderRoute();initSlider();try{DATA=await loadDataFromDB();}catch(e){DATA=await loadData();}renderSiteContent();renderProgramContent(DATA.programs || getPrograms());renderSlider();renderNotices();renderDownloads();showLatestNoticePopup();});
+document.addEventListener('DOMContentLoaded',async()=>{document.getElementById('year').textContent=new Date().getFullYear();renderProgramContent(getPrograms());renderRoute();initSlider();try{DATA=await loadDataFromDB();}catch(e){DATA=await loadData();}renderSiteContent();renderLeadership(DATA.leadership || getLeadership());renderProgramContent(DATA.programs || getPrograms());renderSlider();renderNotices();renderDownloads();showLatestNoticePopup();});
 
 window.addEventListener('hashchange', renderRoute);
