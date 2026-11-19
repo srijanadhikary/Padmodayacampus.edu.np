@@ -58,6 +58,7 @@
           <button class="admin-tab" data-tab="notices" onclick="showAdminTab('notices')">🔔 Notices</button>
           <button class="admin-tab" data-tab="slider" onclick="showAdminTab('slider')">🖼️ Slider</button>
           <button class="admin-tab" data-tab="downloads" onclick="showAdminTab('downloads')">📥 Downloads</button>
+          <button class="admin-tab" data-tab="programs" onclick="showAdminTab('programs')">Programs</button>
           <button class="admin-tab" data-tab="site" onclick="showAdminTab('site')">📄 Site Content</button>
           <button class="admin-tab" data-tab="contact" onclick="showAdminTab('contact')">📞 Contact</button>
           <button class="admin-tab" data-tab="settings" onclick="showAdminTab('settings')">⚙️ Settings</button>
@@ -131,6 +132,22 @@
         <div class="admin-header"><div><h2 class="page-title">Downloads Archive</h2><p class="page-desc">Manage prospectuses, forms, routines, PDFs and other downloadable resources.</p></div><button class="btn btn-primary" onclick="openDownloadForm()">＋ Add Download</button></div>
         <div class="admin-filters"><input type="text" id="downloadSearch" placeholder="🔍 Search downloads..." class="search-input" oninput="renderAdminDownloads()" /></div>
         <div class="download-admin-list" id="adminDownloadList"></div>
+      </div>
+
+      <div id="tab-programs" class="admin-panel">
+        <div class="admin-header">
+          <div>
+            <h2 class="page-title">Programs</h2>
+            <p class="page-desc">Select a program to edit the details shown on the public website.</p>
+          </div>
+        </div>
+        <form class="form-card" id="programForm">
+          <label for="programSelect">Program</label>
+          <select id="programSelect"></select>
+          <div id="programFields"></div>
+          <button class="btn btn-primary" type="submit">Save Program</button>
+          <p id="programStatus" role="status"></p>
+        </form>
       </div>
 
       <!-- SITE CONTENT TAB -->

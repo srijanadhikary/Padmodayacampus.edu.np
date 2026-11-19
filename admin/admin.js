@@ -31,7 +31,7 @@ function showLogin(error='') {
 }
 function showDashboard() {
   document.getElementById('loginScreen').style.display='none'; document.getElementById('dashboard').style.display='block';
-  renderOverview(); renderAdminNotices(); renderAdminSliders(); renderAdminDownloads(); loadSiteForm(); loadContactForm();
+  renderOverview(); renderAdminNotices(); renderAdminSliders(); renderAdminDownloads(); loadSiteForm(); loadContactForm(); initProgramEditor();
 }
 async function logout(){ await CLIENT.auth.signOut(); showLogin(); }
 function showAdminTab(tab){ document.querySelectorAll('.admin-panel').forEach(p=>p.classList.remove('active')); document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active')); document.getElementById('tab-'+tab).classList.add('active'); document.querySelector(`.admin-tab[data-tab="${tab}"]`).classList.add('active'); if(tab==='overview')renderOverview(); if(tab==='notices')renderAdminNotices(); if(tab==='slider')renderAdminSliders(); if(tab==='downloads')renderAdminDownloads(); window.scrollTo({top:0,behavior:'smooth'}); }
@@ -102,3 +102,47 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('downloadForm').addEventListener('submit',async e=>{e.preventDefault();const err=document.getElementById('downloadFormError');err.style.display='none';try{const title=document.getElementById('downloadTitle').value.trim();if(!title)throw new Error('Title is required.');const old=EDITING_ID?DATA.downloads.find(x=>String(x.id)===String(EDITING_ID)):null;let fileUrl=old?.file_url||null,fileName=old?.file_name||null,fileType=old?.file_type||null;const file=document.getElementById('downloadFile').files[0];if(file){const up=await uploadFile(file,'downloads');if(old?.file_url)await removeStorageFile(old.file_url);fileUrl=up.url;fileName=up.name;fileType=file.type||file.name.split('.').pop();}if(!fileUrl)throw new Error('Please select a file.');const row={title,description:document.getElementById('downloadDescription').value.trim(),category:document.getElementById('downloadCategory').value.trim()||'General',file_url:fileUrl,file_name:fileName,file_type:fileType,sort_order:Number(document.getElementById('downloadOrder').value)||0,active:document.getElementById('downloadActive').checked,updated_at:new Date().toISOString()};let r=EDITING_ID?await CLIENT.from('downloads').update(row).eq('id',EDITING_ID):await CLIENT.from('downloads').insert(row);if(r.error)throw r.error;closeDownloadForm();await refresh();toast(EDITING_ID?'✓ Download updated':'✓ Download added');}catch(x){err.textContent='❌ '+x.message;err.style.display='block';}});
   checkAuth();
 });
+
+
+function initProgramEditor() {
+  const form = document.getElementById('programForm');
+  const select = document.getElementById('programSelect');
+  const status = document.getElementById('programStatus');
+  const fields = Object.entries(PROGRAM_FIELDS);
+  select.replaceChildren(...Object.entries(PROGRAM_CATALOG)
+    .map(([id, program]) => new Option(program.short, id)));
+  document.getElementById('programFields').innerHTML = fields.map(([field, label]) =>
+    `<label for="programField-${field}">${label}</label>
+     <textarea id="programField-${field}" name="${field}" rows="${field === 'duration' ? 1 : 4}"></textarea>`
+  ).join('');
+
+  function loadProgram() {
+    const program = DATA.programs[select.value];
+    fields.forEach(([field]) => {
+      form.elements.namedItem(field).value = program[field] || '';
+    });
+    status.textContent = '';
+  }
+  select.onchange = loadProgram;
+  loadProgram();
+
+  form.onsubmit = async event => {
+    event.preventDefault();
+    const id = select.value;
+    const values = Object.fromEntries(fields.map(([field]) => [
+      field, form.elements.namedItem(field).value.trim()
+    ]));
+    const controls = Array.from(form.elements);
+    controls.forEach(control => { control.disabled = true; });
+    status.textContent = 'Saving…';
+    try {
+      await saveProgramToDB(id, values);
+      DATA.programs[id] = { ...DATA.programs[id], ...values };
+      status.textContent = 'Program saved.';
+    } catch (error) {
+      status.textContent = 'Could not save program. ' + error.message;
+    } finally {
+      controls.forEach(control => { control.disabled = false; });
+    }
+  };
+}
