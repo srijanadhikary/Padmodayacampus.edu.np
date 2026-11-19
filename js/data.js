@@ -9,9 +9,9 @@ const DEFAULT_DATA = {
     contact: { address: "Ghorahi-17, Chaughera, Dang, Lumbini Province, Nepal", phone: "082-590754", mobile1: "9857863574", mobile2: "9847857046", email: "padmodayacampus@gmail.com", facebook: "https://www.facebook.com/profile.php?id=100063941974490" }
   },
   sliders: [
-    { id: 1, title: "Padmodaya Campus", subtitle: "पद्मोदय क्याम्पस, घोराही, दाङ", kicker: "🎓 Padmodaya Campus", button_text: "Apply for Admission", button_action: "admissions", image_url: null, sort_order: 1, active: true },
-    { id: 2, title: "Quality Education at Affordable Cost", subtitle: "Padmodaya Campus provides quality higher education and a supportive learning environment for academic excellence.", kicker: "📚 Academic Programs", button_text: "View Programs", button_action: "programs", image_url: null, sort_order: 2, active: true },
-    { id: 3, title: "BBS & BSc Programs", subtitle: "Two four-year full-time undergraduate programs affiliated with Tribhuvan University.", kicker: "🏆 TU Affiliated", button_text: "Contact Campus", button_action: "contact", image_url: null, sort_order: 3, active: true }
+    { id: 1, title: "Campus facilities", subtitle: "Explore the campus library, laboratories and student services.", kicker: "Student resources", button_text: "View Campus Facilities", button_action: "facilities", image_url: null, sort_order: 1, active: true },
+    { id: 2, title: "Quality Education at Affordable Cost", subtitle: "Padmodaya Campus provides quality higher education and a supportive learning environment for academic excellence.", kicker: "Academic programs", button_text: "View Programs", button_action: "programs", image_url: null, sort_order: 2, active: true },
+    { id: 3, title: "Campus notices", subtitle: "Find announcements and updates from the campus office.", kicker: "Announcements", button_text: "View Notices", button_action: "notices", image_url: null, sort_order: 3, active: true }
   ],
   downloads: [],
   notices: [
