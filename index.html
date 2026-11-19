@@ -28,6 +28,7 @@
         <a href="#about" class="nav-link" data-page="about">About</a>
         <a href="#programs" class="nav-link" data-page="programs">Faculties &amp; Programs</a>
         <a href="#admissions" class="nav-link" data-page="admissions">Admissions</a>
+        <a href="#news" class="nav-link" data-page="news">News &amp; Updates</a>
         <a href="#notices" class="nav-link" data-page="notices">Notices</a>
         <a href="#downloads" class="nav-link" data-page="downloads">Downloads</a>
         <a href="#facilities" class="nav-link" data-page="facilities">Facilities</a>
@@ -73,6 +74,14 @@
     <section class="container section leadership-section" id="homeLeadership" aria-labelledby="leadershipHeading" hidden>
       <h2 class="section-title" id="leadershipHeading">Voices from Campus Leadership</h2>
       <div class="leadership-grid" data-leadership></div>
+    </section>
+
+    <section class="container section home-news" id="homeNews" aria-labelledby="homeNewsHeading" hidden>
+      <div class="section-header">
+        <h2 class="section-title" id="homeNewsHeading">News &amp; Updates</h2>
+        <a class="link-btn" href="#news">View all news</a>
+      </div>
+      <div class="news-grid" id="homeNewsList"></div>
     </section>
 
     <div class="container section home-notices">
@@ -227,6 +236,15 @@
   </section>
 
   <!-- NOTICES PAGE -->
+  <section id="page-news" class="page">
+    <div class="container section" id="newsIndex">
+      <h1 class="page-title">News &amp; Updates</h1>
+      <p class="page-desc">Campus activities, events, programmes and stories from Padmodaya Campus.</p>
+      <div class="news-grid" id="newsList"><p role="status">Loading news…</p></div>
+    </div>
+    <article class="container section news-article" id="newsArticle" hidden></article>
+  </section>
+
   <section id="page-notices" class="page">
     <div class="container section">
       <span class="badge badge-coral">Notices &amp; Announcements</span>
