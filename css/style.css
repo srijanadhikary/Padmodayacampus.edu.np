@@ -805,9 +805,6 @@ body{font-size:16px;background:#fff;color:var(--ref-ink);line-height:1.7}
   --ref-border: #dce5e7;
 }
 :focus-visible { outline: 3px solid #bc6234; outline-offset: 4px; }
-.utility-bar { color: #fff; background: var(--ref-navy); font-size: .875rem; }
-.utility-inner { display: flex; justify-content: space-between; gap: 1rem; padding-block: .48rem; }
-.utility-inner a:hover { text-decoration: underline; }
 .nav-inner { min-height: 76px; gap: 1rem; }
 .navbar .brand { min-width: 0; flex-shrink: 0; }
 .brand-name {
@@ -820,7 +817,6 @@ body{font-size:16px;background:#fff;color:var(--ref-ink);line-height:1.7}
 .nav-toggle { font-size: .9rem; font-weight: 700; }
 .navbar { box-shadow: none; }
 .hero { background: var(--ref-bg); padding: 56px 0; }
-.hero-layout { display: grid; grid-template-columns: 1fr 1.05fr; gap: clamp(24px, 5vw, 75px); align-items: center; }
 .eyebrow { color: var(--ref-blue); font-size: .875rem; font-weight: 800; margin-bottom: 1.15rem; }
 .hero-title, .page-title, .section-title {
   font-family: 'Libre Baskerville', Georgia, serif;
@@ -886,7 +882,7 @@ body{font-size:16px;background:#fff;color:var(--ref-ink);line-height:1.7}
 }
 @media (max-width: 760px) {
   .hero { padding-block: 34px; }
-  .hero-layout, .faculty-grid { grid-template-columns: 1fr; }
+  .faculty-grid { grid-template-columns: 1fr; }
   .home-slider, .slider-slide { min-height: 270px; }
   .hero-actions .btn { width: auto; }
   .section { padding-block: 34px; }
@@ -951,15 +947,18 @@ body{font-size:16px;background:#fff;color:var(--ref-ink);line-height:1.7}
   .program-choice .program-detail { padding: 1rem; }
 }
 
-/* Give the desktop slideshow most of the hero width. */
+/* Full-width homepage slideshow */
+#homeSlider {
+  width: 100%;
+  border-radius: 0;
+}
+#homeSlider .slider-content {
+  width: min(1180px, 100%);
+  margin-inline: auto;
+  padding-inline: clamp(24px, 5vw, 78px);
+}
 @media (min-width: 1024px) {
-  .hero-layout {
-    max-width: 1440px;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-    gap: clamp(32px, 4vw, 64px);
-  }
-  .home-slider, .slider-slide { min-height: clamp(460px, 38vw, 580px); }
-  .slider-content { padding-inline: clamp(32px, 5vw, 78px); }
+  #homeSlider, #homeSlider .slider-slide { min-height: clamp(460px, 38vw, 580px); }
 }
 
 .leadership-section[hidden] { display: none; }
