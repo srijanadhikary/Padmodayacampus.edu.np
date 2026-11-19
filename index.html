@@ -386,22 +386,13 @@
 
   <!-- NOTICE POPUP -->
   <div class="modal-overlay" id="noticePopup" onclick="dismissPopup(event)">
-    <div class="modal" onclick="event.stopPropagation()">
-      <div class="modal-header" id="popupHeader">
-        <div class="modal-header-left">
-          <div class="modal-header-icon">🔔</div>
-          <div>
-            <h3>Latest Notice</h3>
-            <p id="popupDate"></p>
-          </div>
-        </div>
-        <button class="modal-close" onclick="dismissPopup()">✕</button>
-      </div>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="popupTitle" onclick="event.stopPropagation()">
+      <button class="modal-close" type="button" aria-label="Close notice" onclick="dismissPopup()">✕</button>
       <div class="modal-body">
         <span id="popupPriority" class="badge"></span>
         <h2 id="popupTitle"></h2>
         <p id="popupContent"></p>
-        <div id="popupAttachment" style="margin-top:1rem"></div>
+        <div id="popupAttachment"></div>
       </div>
       <div class="modal-footer">
         <button class="link-btn" onclick="dismissPopup(); showPage('notices')">View all notices</button>
