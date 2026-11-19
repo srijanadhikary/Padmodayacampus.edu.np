@@ -84,22 +84,11 @@
         <a class="link-btn" href="#programs">Full program details</a>
       </div>
       <div class="faculty-grid">
-        <article class="faculty-card">
-          <h3>Management</h3>
-          <dl class="program-links">
-            <div><dt><a href="#program-bbs">BBS</a></dt><dd>Bachelor of Business Studies</dd></div>
-            <div><dt><a href="#program-bba">BBA</a></dt><dd>Bachelor of Business Administration</dd></div>
-          </dl>
-        </article>
-        <article class="faculty-card">
-          <h3>Science &amp; Technology</h3>
-          <dl class="program-links">
-            <div><dt><a href="#program-bsc">BSc General</a></dt><dd>Physical and Biological groups</dd></div>
-            <div><dt><a href="#program-csit">BSc CSIT</a></dt><dd>Computer Science and Information Technology</dd></div>
-          </dl>
-        </article>
+        <a class="faculty-link" href="#faculty-management">Faculty of Management</a>
+        <a class="faculty-link" href="#faculty-science">Institute of Science and Technology</a>
       </div>
-        </div>
+      <p class="program-note">Contact the campus office for BBA and BSc CSIT availability and intake details.</p>
+    </div>
 
     <div class="container section home-notices">
       <div class="section-header">
@@ -162,63 +151,52 @@
       <span class="badge badge-amber">Academic Programs</span>
       <h1 class="page-title">Faculties &amp; Programs</h1>
       <p class="page-desc">Explore undergraduate study in management, science and technology.</p>
-      <h2 class="faculty-heading">Faculty of Management</h2>
-
-      <article class="program-detail" id="program-bbs" tabindex="-1">
-        <div class="program-detail-header">
-          <div class="program-icon-lg" style="background:#F5A62315;color:#F5A623">👥</div>
-          <div>
-            <h2>Bachelor of Business Studies</h2>
-            <p>BBS · Management Faculty · Tribhuvan University</p>
+      <div class="faculty-selector">
+        <details class="faculty-group" id="faculty-management">
+          <summary>Faculty of Management</summary>
+          <div class="faculty-programs">
+            <details class="program-choice" id="program-bbs">
+              <summary>BBS</summary>
+              <article class="program-detail" data-program="bbs">
+                <h2>Bachelor of Business Studies (BBS)</h2>
+                <p class="program-affiliation">Tribhuvan University · Faculty of Management</p>
+                <div class="program-content"></div>
+              </article>
+            </details>
+            <details class="program-choice" id="program-bba">
+              <summary>BBA</summary>
+              <article class="program-detail" data-program="bba">
+                <h2>Bachelor of Business Administration (BBA)</h2>
+                <p class="program-affiliation">Tribhuvan University · Faculty of Management</p>
+                <div class="program-content"></div>
+                <a class="btn btn-secondary" href="#contact">Ask About BBA Availability</a>
+              </article>
+            </details>
           </div>
-        </div>
-        <div class="mini-info-grid">
-          <div class="mini-info"><div class="mini-icon" style="background:#4ECDC415;color:#4ECDC4">🕒</div><div><div class="mini-label">Duration</div><div class="mini-value">4 Years</div></div></div>
-          <div class="mini-info"><div class="mini-icon" style="background:#B8A9E815;color:#B8A9E8">🎓</div><div><div class="mini-label">Level</div><div class="mini-value">Bachelor</div></div></div>
-          <div class="mini-info"><div class="mini-icon" style="background:#4ADE8015;color:#4ADE80">✓</div><div><div class="mini-label">Eligibility</div><div class="mini-value">D+ Aggregate</div></div></div>
-          <div class="mini-info"><div class="mini-icon" style="background:#F5A62315;color:#F5A623">🕒</div><div><div class="mini-label">Shift</div><div class="mini-value">Morning</div></div></div>
-        </div>
-        <p>The BBS program provides students with a strong foundation in business, finance, accounting, and management principles, preparing them for careers in the corporate sector, entrepreneurship, and further studies.</p>
-      </article>
-
-      <article class="program-detail" id="program-bba" tabindex="-1">
-        <h3>Bachelor of Business Administration (BBA)</h3>
-        <p class="program-affiliation">Tribhuvan University · Faculty of Management</p>
-        <p>Study accounting, finance, marketing and management in a four-year, eight-semester undergraduate program.</p>
-        <a class="btn btn-secondary" href="#contact">Ask About BBA Availability</a>
-      </article>
-
-      <h2 class="faculty-heading">Institute of Science and Technology</h2>
-      <article class="program-detail" id="program-bsc" tabindex="-1">
-        <div class="program-detail-header">
-          <div class="program-icon-lg" style="background:#4ECDC415;color:#4ECDC4">🧪</div>
-          <div>
-            <h2>Bachelor of Science (General)</h2>
-            <p>BSc · Physical &amp; Biological Group · Tribhuvan University</p>
+        </details>
+        <details class="faculty-group" id="faculty-science">
+          <summary>Institute of Science and Technology</summary>
+          <div class="faculty-programs">
+            <details class="program-choice" id="program-bsc">
+              <summary>BSc General</summary>
+              <article class="program-detail" data-program="bsc">
+                <h2>Bachelor of Science (General)</h2>
+                <p class="program-affiliation">Tribhuvan University · Institute of Science and Technology</p>
+                <div class="program-content"></div>
+              </article>
+            </details>
+            <details class="program-choice" id="program-csit">
+              <summary>BSc CSIT</summary>
+              <article class="program-detail" data-program="csit">
+                <h2>Bachelor of Science in Computer Science and Information Technology (BSc CSIT)</h2>
+                <p class="program-affiliation">Tribhuvan University · Institute of Science and Technology</p>
+                <div class="program-content"></div>
+                <a class="btn btn-secondary" href="#contact">Ask About BSc CSIT Availability</a>
+              </article>
+            </details>
           </div>
-        </div>
-        <div class="mini-info-grid">
-          <div class="mini-info"><div class="mini-icon" style="background:#4ECDC415;color:#4ECDC4">🕒</div><div><div class="mini-label">Duration</div><div class="mini-value">4 Years</div></div></div>
-          <div class="mini-info"><div class="mini-icon" style="background:#B8A9E815;color:#B8A9E8">👥</div><div><div class="mini-label">Seats</div><div class="mini-value">48</div></div></div>
-          <div class="mini-info"><div class="mini-icon" style="background:#4ADE8015;color:#4ADE80">✓</div><div><div class="mini-label">Eligibility</div><div class="mini-value">C + Entrance</div></div></div>
-          <div class="mini-info"><div class="mini-icon" style="background:#F5A62315;color:#F5A623">🕒</div><div><div class="mini-label">Shift</div><div class="mini-value">6:00 AM</div></div></div>
-        </div>
-        <p>The BSc program covers core subjects from the Physical and Biological groups with theory and practical components. The curriculum includes Scientific Communication, Applied Statistics, Research Methodology, Computational Course, and a final-year major subject with project/field work.</p>
-        <h4 class="curriculum-title">📖 Curriculum Structure</h4>
-        <div class="curriculum-list">
-          <div class="curriculum-row"><span class="badge badge-lilac">1st Year</span><span>3 core subjects (Physical/Biological) + Scientific Communication</span></div>
-          <div class="curriculum-row"><span class="badge badge-amber">2nd Year</span><span>Continuation of core subjects + Applied Statistics</span></div>
-          <div class="curriculum-row"><span class="badge badge-teal">3rd Year</span><span>2 core subjects + Research Methodology + Electives</span></div>
-          <div class="curriculum-row"><span class="badge badge-green">4th Year</span><span>1 Major + Project/Field Work + Computational + Interdisciplinary</span></div>
-        </div>
-      </article>
-
-      <article class="program-detail" id="program-csit" tabindex="-1">
-        <h3>Bachelor of Science in Computer Science and Information Technology (BSc CSIT)</h3>
-        <p class="program-affiliation">Tribhuvan University · Institute of Science and Technology</p>
-        <p>Study programming, databases, computer networks and software development in a four-year, eight-semester undergraduate program.</p>
-        <a class="btn btn-secondary" href="#contact">Ask About BSc CSIT Availability</a>
-      </article>
+        </details>
+      </div>
     </div>
   </section>
 
