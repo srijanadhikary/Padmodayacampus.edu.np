@@ -58,6 +58,7 @@
           <button class="admin-tab" data-tab="notices" onclick="showAdminTab('notices')">🔔 Notices</button>
           <button class="admin-tab" data-tab="slider" onclick="showAdminTab('slider')">🖼️ Slider</button>
           <button class="admin-tab" data-tab="downloads" onclick="showAdminTab('downloads')">📥 Downloads</button>
+          <button class="admin-tab" data-tab="news" onclick="showAdminTab('news')">News &amp; Updates</button>
           <button class="admin-tab" data-tab="leadership" onclick="showAdminTab('leadership')">Leadership</button>
           <button class="admin-tab" data-tab="programs" onclick="showAdminTab('programs')">Programs</button>
           <button class="admin-tab" data-tab="site" onclick="showAdminTab('site')">📄 Site Content</button>
@@ -133,6 +134,52 @@
         <div class="admin-header"><div><h2 class="page-title">Downloads Archive</h2><p class="page-desc">Manage prospectuses, forms, routines, PDFs and other downloadable resources.</p></div><button class="btn btn-primary" onclick="openDownloadForm()">＋ Add Download</button></div>
         <div class="admin-filters"><input type="text" id="downloadSearch" placeholder="🔍 Search downloads..." class="search-input" oninput="renderAdminDownloads()" /></div>
         <div class="download-admin-list" id="adminDownloadList"></div>
+      </div>
+
+      <div id="tab-news" class="admin-panel">
+        <div class="admin-header">
+          <div>
+            <h2 class="page-title">News &amp; Updates</h2>
+            <p class="page-desc">Write a news article, save it as a draft, or publish it on the website.</p>
+          </div>
+        </div>
+        <p id="newsAdminStatus" role="status"></p>
+        <form class="form-card" id="newsForm" hidden>
+          <label for="newsPostSelect">Article</label>
+          <select id="newsPostSelect" name="postId"></select>
+          <label for="newsHeadline">Headline</label>
+          <input id="newsHeadline" name="headline" required maxlength="180" />
+          <div class="two-col-grid">
+            <div>
+              <label for="newsCategory">Category</label>
+              <select id="newsCategory" name="category">
+                <option>News</option><option>Activity</option><option>Event</option><option>Programme</option>
+              </select>
+            </div>
+            <div>
+              <label for="newsDate">Article date</label>
+              <input id="newsDate" name="article_date" type="date" required />
+            </div>
+          </div>
+          <label for="newsByline">Byline (optional)</label>
+          <input id="newsByline" name="byline" maxlength="100" placeholder="Padmodaya Campus" />
+          <label for="newsLead">Lead paragraph</label>
+          <textarea id="newsLead" name="lead" rows="3" required placeholder="Summarise what happened, where and when."></textarea>
+          <label for="newsBody">Article body</label>
+          <textarea id="newsBody" name="body" rows="10" required placeholder="Add the details, including participants, outcomes and quotes where appropriate."></textarea>
+          <label for="newsPhoto">Cover photo (JPG, PNG or WebP, up to 10 MB)</label>
+          <input id="newsPhoto" name="photo" type="file" accept="image/jpeg,image/png,image/webp" />
+          <img id="newsPhotoPreview" alt="Current cover photo" width="180" hidden />
+          <label for="newsPhotoAlt">Photo description</label>
+          <input id="newsPhotoAlt" name="photo_alt" maxlength="200" />
+          <label for="newsPhotoCaption">Photo caption or credit (optional)</label>
+          <input id="newsPhotoCaption" name="photo_caption" maxlength="240" />
+          <label for="newsPublished">Status</label>
+          <select id="newsPublished" name="published">
+            <option value="draft">Draft</option><option value="published">Published</option>
+          </select>
+          <button class="btn btn-primary" type="submit">Save Article</button>
+        </form>
       </div>
 
       <div id="tab-leadership" class="admin-panel">

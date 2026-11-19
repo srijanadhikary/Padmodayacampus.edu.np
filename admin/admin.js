@@ -33,8 +33,8 @@ function showDashboard() {
   document.getElementById('loginScreen').style.display='none'; document.getElementById('dashboard').style.display='block';
   renderOverview(); renderAdminNotices(); renderAdminSliders(); renderAdminDownloads(); loadSiteForm(); loadContactForm(); initProgramEditor(); initLeadershipEditor();
 }
-async function logout(){ await CLIENT.auth.signOut(); showLogin(); }
-function showAdminTab(tab){ document.querySelectorAll('.admin-panel').forEach(p=>p.classList.remove('active')); document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active')); document.getElementById('tab-'+tab).classList.add('active'); document.querySelector(`.admin-tab[data-tab="${tab}"]`).classList.add('active'); if(tab==='overview')renderOverview(); if(tab==='notices')renderAdminNotices(); if(tab==='slider')renderAdminSliders(); if(tab==='downloads')renderAdminDownloads(); window.scrollTo({top:0,behavior:'smooth'}); }
+async function logout(){ await CLIENT.auth.signOut(); document.getElementById('newsForm').hidden = true; showLogin(); }
+function showAdminTab(tab){ document.querySelectorAll('.admin-panel').forEach(p=>p.classList.remove('active')); document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active')); document.getElementById('tab-'+tab).classList.add('active'); document.querySelector(`.admin-tab[data-tab="${tab}"]`).classList.add('active'); if(tab==='overview')renderOverview(); if(tab==='notices')renderAdminNotices(); if(tab==='slider')renderAdminSliders(); if(tab==='downloads')renderAdminDownloads(); if(tab==='news')initNewsEditor(); window.scrollTo({top:0,behavior:'smooth'}); }
 
 function renderOverview(){
   const notices=DATA.notices||[], activeCount=notices.filter(n=>n.active!==false).length, urgentCount=notices.filter(n=>n.priority==='urgent').length, importantCount=notices.filter(n=>n.priority==='important').length;
@@ -215,6 +215,91 @@ function initLeadershipEditor() {
       status.textContent = 'Profile saved.';
     } catch (error) {
       status.textContent = 'Could not save profile. ' + error.message;
+    } finally {
+      controls.forEach(control => { control.disabled = false; });
+    }
+  };
+}
+
+async function initNewsEditor() {
+  const form = document.getElementById('newsForm');
+  const status = document.getElementById('newsAdminStatus');
+  if (!form.hidden || form.dataset.loading) return;
+  form.dataset.loading = 'true';
+  status.textContent = 'Loading articles…';
+  let posts;
+  try {
+    posts = await loadNews(true);
+  } catch (error) {
+    status.textContent = 'Could not load news. Make sure the news database update has been applied. ' + error.message;
+    return;
+  } finally {
+    delete form.dataset.loading;
+  }
+
+  const fields = form.elements;
+  const select = fields.postId;
+  const preview = document.getElementById('newsPhotoPreview');
+  const textFields = ['headline', 'category', 'article_date', 'byline', 'lead', 'body', 'photo_alt', 'photo_caption'];
+  let newId;
+
+  function populate(id) {
+    select.replaceChildren(new Option('New article', ''), ...posts.map(post =>
+      new Option(post.headline + (post.published ? ' — Published' : ' — Draft'), post.id)
+    ));
+    select.value = id;
+  }
+
+  function loadArticle() {
+    const post = posts.find(item => item.id === select.value);
+    newId = crypto.randomUUID();
+    const today = new Intl.DateTimeFormat('en-CA', {
+      year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Asia/Kathmandu'
+    }).format(new Date());
+    const defaults = { category: 'News', article_date: today };
+    textFields.forEach(field => { fields[field].value = post?.[field] ?? defaults[field] ?? ''; });
+    fields.published.value = post?.published ? 'published' : 'draft';
+    fields.photo.value = '';
+    preview.hidden = !/^https:\/\//i.test(post?.photo_url || '');
+    if (preview.hidden) preview.removeAttribute('src');
+    else preview.src = post.photo_url;
+    status.textContent = '';
+  }
+
+  populate('');
+  loadArticle();
+  form.hidden = false;
+  select.onchange = loadArticle;
+
+  form.onsubmit = async event => {
+    event.preventDefault();
+    const previous = posts.find(item => item.id === select.value);
+    const article = Object.fromEntries(textFields.map(field => [field, fields[field].value.trim()]));
+    article.id = previous?.id || newId;
+    article.published = fields.published.value === 'published';
+    article.photo_url = previous?.photo_url || null;
+    const photo = fields.photo.files[0];
+    const controls = Array.from(fields);
+    controls.forEach(control => { control.disabled = true; });
+    status.textContent = 'Saving article…';
+    try {
+      if (!article.headline || !article.lead || !article.body) {
+        throw new Error('Enter a headline, lead paragraph and article body.');
+      }
+      if (photo && !['image/jpeg', 'image/png', 'image/webp'].includes(photo.type)) {
+        throw new Error('Use a JPG, PNG or WebP image.');
+      }
+      if (article.published && (photo || article.photo_url) && !article.photo_alt) {
+        throw new Error('Add a photo description before publishing.');
+      }
+      if (photo) article.photo_url = (await uploadFile(photo, 'news')).url;
+      const saved = await saveNews(article);
+      posts = [saved, ...posts.filter(post => post.id !== saved.id)];
+      populate(saved.id);
+      loadArticle();
+      status.textContent = saved.published ? 'Article published.' : 'Draft saved.';
+    } catch (error) {
+      status.textContent = 'Could not save article. ' + error.message;
     } finally {
       controls.forEach(control => { control.disabled = false; });
     }
