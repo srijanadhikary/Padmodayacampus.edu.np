@@ -14,15 +14,48 @@ function renderSlider(){
       ${s.button_text?`<div class="slider-actions"><button class="btn btn-primary" onclick="sliderAction('${escapeHTML(s.button_action||'')}')">${escapeHTML(s.button_text)}</button></div>`:''}
     </div></div>`).join('') || `<div class="slider-slide"><div class="slider-art"></div><div class="slider-content"><h2>Padmodaya Campus</h2><p>पद्मोदय क्याम्पस, घोराही, दाङ</p></div></div>`;
   dots.innerHTML=Array.from(track.children).map((_,i)=>`<button type="button" class="slider-dot${i===0?' active':''}" aria-label="Go to slide ${i+1}" onclick="goToSlide(${i})"></button>`).join('');
-  currentSlide=0;updateSlider();clearInterval(sliderTimer);sliderTimer=setInterval(()=>changeSlide(1),5000);
+  currentSlide=0;updateSlider();clearInterval(sliderTimer);if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) sliderTimer=setInterval(()=>{if (!document.getElementById('homeSlider').matches(':hover, :focus-within')) changeSlide(1);},7000);
 }
-function updateSlider(){const track=document.getElementById('sliderTrack');if(!track||!track.children.length)return;const total=track.children.length;currentSlide=(currentSlide+total)%total;track.style.transform=`translateX(-${currentSlide*100}%)`;document.querySelectorAll('.slider-dot').forEach((d,i)=>d.classList.toggle('active',i===currentSlide));const n=document.getElementById('sliderNumber');if(n)n.textContent=`${String(currentSlide+1).padStart(2,'0')} / ${String(total).padStart(2,'0')}`;}
+function updateSlider(){const track=document.getElementById('sliderTrack');if(!track||!track.children.length)return;const total=track.children.length;currentSlide=(currentSlide+total)%total;track.style.transform=`translateX(-${currentSlide*100}%)`;document.querySelectorAll('.slider-dot').forEach((d,i)=>d.classList.toggle('active',i===currentSlide));Array.from(track.children).forEach((slide,i)=>{slide.inert=i!==currentSlide;});}
 function initSlider(){renderSlider();}
-function goToSlide(i){currentSlide=i;updateSlider();clearInterval(sliderTimer);sliderTimer=setInterval(()=>changeSlide(1),5000);}
-function changeSlide(step){currentSlide+=step;updateSlider();clearInterval(sliderTimer);sliderTimer=setInterval(()=>changeSlide(1),5000);}
+function goToSlide(i){currentSlide=i;updateSlider();clearInterval(sliderTimer);if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) sliderTimer=setInterval(()=>{if (!document.getElementById('homeSlider').matches(':hover, :focus-within')) changeSlide(1);},7000);}
+function changeSlide(step){currentSlide+=step;updateSlider();clearInterval(sliderTimer);if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) sliderTimer=setInterval(()=>{if (!document.getElementById('homeSlider').matches(':hover, :focus-within')) changeSlide(1);},7000);}
 function escapeHTML(str){return String(str??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
-function showPage(pageId){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));const page=document.getElementById('page-'+pageId);if(page)page.classList.add('active');const link=document.querySelector(`.nav-link[data-page="${pageId}"]`);if(link)link.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});document.getElementById('navLinks').classList.remove('open');}
-function toggleMenu(){document.getElementById('navLinks').classList.toggle('open');}
+function showPage(pageId) {
+  if (!document.getElementById('page-' + pageId)) return;
+  if (location.hash === '#' + pageId) renderRoute();
+  else location.hash = pageId;
+}
+
+function renderRoute() {
+  const hash = location.hash.slice(1);
+  const detail = Array.from(document.querySelectorAll('.program-detail[id]'))
+    .find(program => program.id === hash);
+  const pageId = detail ? 'programs' : document.getElementById('page-' + hash) ? hash : 'home';
+  document.querySelectorAll('.page').forEach(page => {
+    page.classList.toggle('active', page.id === 'page-' + pageId);
+  });
+  document.querySelectorAll('.nav-link').forEach(link => {
+    const active = link.dataset.page === pageId;
+    link.classList.toggle('active', active);
+    if (active) link.setAttribute('aria-current', 'page');
+    else link.removeAttribute('aria-current');
+  });
+  document.getElementById('navLinks').classList.remove('open');
+  document.querySelector('.nav-toggle').setAttribute('aria-expanded', 'false');
+  if (detail) {
+    detail.focus({ preventScroll: true });
+    detail.scrollIntoView({ block: 'start' });
+  } else {
+    window.scrollTo(0, 0);
+  }
+}
+
+function toggleMenu() {
+  const open = document.getElementById('navLinks').classList.toggle('open');
+  document.querySelector('.nav-toggle').setAttribute('aria-expanded', String(open));
+}
+
 function renderSiteContent(){const s=DATA.site||{},c=s.contact||{};const tag=document.querySelector('.hero-tagline'),desc=document.querySelector('.hero-desc');if(tag)tag.textContent=s.heroTagline||tag.textContent;if(desc)desc.textContent=s.heroDescription||desc.textContent;const a=document.getElementById('aboutText'),m=document.getElementById('missionText'),v=document.getElementById('visionText');if(a)a.textContent=s.about||'';if(m)m.textContent=s.mission||'';if(v)v.textContent=s.vision||'';const rows=document.querySelectorAll('#page-contact .contact-row .contact-value');if(rows.length>=5){rows[0].textContent=c.address||'';rows[1].textContent=c.phone||'';rows[2].textContent=c.mobile1||'';rows[3].textContent=c.mobile2||'';rows[4].textContent=c.email||'';}const links=document.querySelectorAll('#page-contact a.contact-row');if(links.length>=5){if(c.phone)links[0].href='tel:'+c.phone.replace(/[^0-9+]/g,'');if(c.mobile1)links[1].href='tel:+977'+c.mobile1.replace(/[^0-9]/g,'');if(c.mobile2)links[2].href='tel:+977'+c.mobile2.replace(/[^0-9]/g,'');if(c.email)links[3].href='mailto:'+c.email;if(c.facebook)links[4].href=c.facebook;}}
 function noticeItemHTML(n){const p=PRIORITY_COLORS[n.priority]||PRIORITY_COLORS.normal;return `<button class="notice-item" data-id="${escapeHTML(n.id)}"><div class="notice-icon-wrap" style="background:${p.bg}15;color:${p.bg}">🔔</div><div class="notice-body"><div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap"><div class="notice-title">${escapeHTML(n.title)}</div><span class="badge ${p.label}">${escapeHTML(n.priority)}</span></div><div class="notice-content">${escapeHTML(n.content)}</div><div class="notice-date">📅 ${escapeHTML(n.date)}</div></div><div class="notice-chevron">›</div></button>`;}
 function renderNotices(){const order={urgent:3,important:2,normal:1},active=[...DATA.notices].filter(n=>n.active!==false).sort((a,b)=>(order[b.priority]||0)-(order[a.priority]||0)||String(b.date||'').localeCompare(String(a.date||'')));const home=document.getElementById('homeNoticeList');if(home){home.innerHTML=active.slice(0,4).map(noticeItemHTML).join('')||emptyHTML('No notices yet');attachNoticeClickHandlers(home,active.slice(0,4));}const all=document.getElementById('allNoticeList');if(all){const f=CURRENT_FILTER==='all'?active:active.filter(n=>n.priority===CURRENT_FILTER);all.innerHTML=f.map(noticeItemHTML).join('')||emptyHTML('No notices in this category');attachNoticeClickHandlers(all,f);}}
@@ -44,4 +77,6 @@ function dismissPopup(e){if(e&&e.target&&e.target.closest('.modal'))return;docum
 function openNoticeDetail(n){const p=PRIORITY_COLORS[n.priority]||PRIORITY_COLORS.normal;document.getElementById('detailDate').textContent=n.date;document.getElementById('detailTitle').textContent=n.title;document.getElementById('detailContent').textContent=n.content;document.getElementById('detailAttachment').innerHTML=attachmentHTML(n,'detail');const b=document.getElementById('detailPriority');b.className='badge '+p.label;b.textContent=n.priority;document.getElementById('noticeDetail').classList.add('open');}
 function closeNoticeDetail(e){if(e&&e.target&&e.target.closest('.modal'))return;document.getElementById('noticeDetail').classList.remove('open');}
 
-document.addEventListener('DOMContentLoaded',async()=>{document.getElementById('year').textContent=new Date().getFullYear();initSlider();try{DATA=await loadDataFromDB();}catch(e){DATA=await loadData();}renderSiteContent();renderSlider();renderNotices();renderDownloads();showLatestNoticePopup();const hash=window.location.hash.replace('#','');if(hash&&document.getElementById('page-'+hash))showPage(hash);});
+document.addEventListener('DOMContentLoaded',async()=>{document.getElementById('year').textContent=new Date().getFullYear();renderRoute();initSlider();try{DATA=await loadDataFromDB();}catch(e){DATA=await loadData();}renderSiteContent();renderSlider();renderNotices();renderDownloads();showLatestNoticePopup();});
+
+window.addEventListener('hashchange', renderRoute);
