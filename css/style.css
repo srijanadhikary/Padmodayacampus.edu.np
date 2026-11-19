@@ -998,3 +998,50 @@ body{font-size:16px;background:#fff;color:var(--ref-ink);line-height:1.7}
 @media (max-width: 700px) {
   .leadership-grid { grid-template-columns: 1fr; }
 }
+
+/* Campus news */
+#homeNews[hidden], #newsIndex[hidden], #newsArticle[hidden] { display: none; }
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+.news-card {
+  overflow: hidden;
+  border: 1px solid var(--ref-border);
+  border-radius: 10px;
+  overflow-wrap: anywhere;
+}
+.news-card > img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+.news-card-copy { padding: 1.15rem; }
+.news-meta { display: flex; gap: .75rem; flex-wrap: wrap; font-size: .875rem; color: var(--ref-muted); }
+.news-meta span { color: var(--ref-blue); font-weight: 800; }
+.news-card h2 { margin-block: .45rem; font-size: 1.2rem; line-height: 1.35; color: var(--ref-navy); }
+.news-card h2 a:hover { text-decoration: underline; }
+.news-card-lead {
+  margin-bottom: .85rem;
+  color: var(--ref-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.news-article { max-width: 850px; overflow-wrap: anywhere; }
+.news-article .news-meta { margin: 1.25rem 0 .5rem; }
+.news-article .page-title { line-height: 1.2; }
+.news-byline { color: var(--ref-muted); font-weight: 600; }
+.news-lead { font-size: 1.2rem; font-weight: 600; margin-block: 1.2rem; white-space: pre-wrap; }
+.news-article figure { margin: 0 0 1.25rem; }
+.news-article figure img { width: 100%; max-height: 620px; object-fit: contain; display: block; background: var(--ref-bg); }
+.news-article figcaption { font-size: .875rem; color: var(--ref-muted); margin-top: .4rem; }
+.news-body { white-space: pre-wrap; line-height: 1.8; }
+@media (min-width: 1151px) and (max-width: 1270px) {
+  .nav-link { padding-inline: 6px; font-size: .8rem; }
+  .nav-inner { gap: .6rem; }
+}
+@media (max-width: 900px) {
+  .news-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  .news-grid { grid-template-columns: 1fr; }
+}
