@@ -950,3 +950,52 @@ body{font-size:16px;background:#fff;color:var(--ref-ink);line-height:1.7}
   .faculty-programs { padding-left: .35rem; }
   .program-choice .program-detail { padding: 1rem; }
 }
+
+/* Give the desktop slideshow most of the hero width. */
+@media (min-width: 1024px) {
+  .hero-layout {
+    max-width: 1440px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: clamp(32px, 4vw, 64px);
+  }
+  .home-slider, .slider-slide { min-height: clamp(460px, 38vw, 580px); }
+  .slider-content { padding-inline: clamp(32px, 5vw, 78px); }
+}
+
+.leadership-section[hidden] { display: none; }
+.about-leadership { margin-top: 2rem; }
+.leadership-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.15rem;
+}
+.leadership-card {
+  padding: clamp(1rem, 2vw, 1.6rem);
+  border: 1px solid var(--ref-border);
+  border-top: 3px solid var(--ref-blue);
+  border-radius: 10px;
+  overflow-wrap: anywhere;
+}
+.leadership-person { display: flex; align-items: center; gap: 1rem; }
+.leadership-person h3 { color: var(--ref-navy); line-height: 1.35; }
+.leadership-person p { color: var(--ref-blue); font-weight: 600; margin-top: .2rem; }
+.leadership-photo {
+  width: 88px;
+  height: 88px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex: none;
+}
+.leadership-initials {
+  display: grid;
+  place-items: center;
+  color: var(--ref-blue);
+  background: var(--ref-bg);
+  font-weight: 800;
+  font-size: 1.35rem;
+}
+.leadership-message { margin-top: 1rem; white-space: pre-line; }
+@media (max-width: 700px) {
+  .leadership-grid { grid-template-columns: 1fr; }
+}
