@@ -58,6 +58,7 @@
           <button class="admin-tab" data-tab="notices" onclick="showAdminTab('notices')">🔔 Notices</button>
           <button class="admin-tab" data-tab="slider" onclick="showAdminTab('slider')">🖼️ Slider</button>
           <button class="admin-tab" data-tab="downloads" onclick="showAdminTab('downloads')">📥 Downloads</button>
+          <button class="admin-tab" data-tab="leadership" onclick="showAdminTab('leadership')">Leadership</button>
           <button class="admin-tab" data-tab="programs" onclick="showAdminTab('programs')">Programs</button>
           <button class="admin-tab" data-tab="site" onclick="showAdminTab('site')">📄 Site Content</button>
           <button class="admin-tab" data-tab="contact" onclick="showAdminTab('contact')">📞 Contact</button>
@@ -132,6 +133,34 @@
         <div class="admin-header"><div><h2 class="page-title">Downloads Archive</h2><p class="page-desc">Manage prospectuses, forms, routines, PDFs and other downloadable resources.</p></div><button class="btn btn-primary" onclick="openDownloadForm()">＋ Add Download</button></div>
         <div class="admin-filters"><input type="text" id="downloadSearch" placeholder="🔍 Search downloads..." class="search-input" oninput="renderAdminDownloads()" /></div>
         <div class="download-admin-list" id="adminDownloadList"></div>
+      </div>
+
+      <div id="tab-leadership" class="admin-panel">
+        <div class="admin-header">
+          <div>
+            <h2 class="page-title">Leadership</h2>
+            <p class="page-desc">Edit the profiles and messages shown on Home and About.</p>
+          </div>
+        </div>
+        <form class="form-card" id="leadershipForm">
+          <label for="leadershipSelect">Profile</label>
+          <select id="leadershipSelect"></select>
+          <label for="leadershipName">Name</label>
+          <input id="leadershipName" name="profileName" required maxlength="100" />
+          <label for="leadershipRole">Role</label>
+          <input id="leadershipRole" name="profileRole" required maxlength="100" />
+          <label for="leadershipMessage">Message</label>
+          <textarea id="leadershipMessage" name="message" rows="7"></textarea>
+          <label for="leadershipPhoto">Upload photo (JPG, PNG or WebP, up to 10 MB)</label>
+          <input id="leadershipPhoto" name="photo" type="file" accept="image/jpeg,image/png,image/webp" />
+          <img id="leadershipPreview" alt="Current profile photo" width="88" height="88" hidden style="object-fit:cover;border-radius:8px;margin-bottom:1rem" />
+          <label id="leadershipRemoveLabel" hidden><input type="checkbox" name="removePhoto" /> Remove current photo</label>
+          <label for="leadershipOrder">Display order (lowest first)</label>
+          <input id="leadershipOrder" name="order" type="number" min="0" max="9999" />
+          <label><input type="checkbox" name="active" checked /> Visible on website</label>
+          <button class="btn btn-primary" type="submit">Save Profile</button>
+          <p id="leadershipStatus" role="status"></p>
+        </form>
       </div>
 
       <div id="tab-programs" class="admin-panel">

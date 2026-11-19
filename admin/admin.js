@@ -31,7 +31,7 @@ function showLogin(error='') {
 }
 function showDashboard() {
   document.getElementById('loginScreen').style.display='none'; document.getElementById('dashboard').style.display='block';
-  renderOverview(); renderAdminNotices(); renderAdminSliders(); renderAdminDownloads(); loadSiteForm(); loadContactForm(); initProgramEditor();
+  renderOverview(); renderAdminNotices(); renderAdminSliders(); renderAdminDownloads(); loadSiteForm(); loadContactForm(); initProgramEditor(); initLeadershipEditor();
 }
 async function logout(){ await CLIENT.auth.signOut(); showLogin(); }
 function showAdminTab(tab){ document.querySelectorAll('.admin-panel').forEach(p=>p.classList.remove('active')); document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active')); document.getElementById('tab-'+tab).classList.add('active'); document.querySelector(`.admin-tab[data-tab="${tab}"]`).classList.add('active'); if(tab==='overview')renderOverview(); if(tab==='notices')renderAdminNotices(); if(tab==='slider')renderAdminSliders(); if(tab==='downloads')renderAdminDownloads(); window.scrollTo({top:0,behavior:'smooth'}); }
@@ -141,6 +141,80 @@ function initProgramEditor() {
       status.textContent = 'Program saved.';
     } catch (error) {
       status.textContent = 'Could not save program. ' + error.message;
+    } finally {
+      controls.forEach(control => { control.disabled = false; });
+    }
+  };
+}
+
+
+function initLeadershipEditor() {
+  const form = document.getElementById('leadershipForm');
+  const select = document.getElementById('leadershipSelect');
+  const status = document.getElementById('leadershipStatus');
+  const preview = document.getElementById('leadershipPreview');
+  const removeLabel = document.getElementById('leadershipRemoveLabel');
+  const fields = form.elements;
+
+  function populateOptions(id) {
+    select.replaceChildren(...DATA.leadership.map(profile =>
+      new Option(profile.role + ' · ' + profile.name, profile.id)
+    ), new Option('Add a new profile', ''));
+    if (id !== undefined) select.value = id;
+  }
+
+  function loadProfile() {
+    const profile = DATA.leadership.find(item => item.id === select.value);
+    fields.profileName.value = profile?.name || '';
+    fields.profileRole.value = profile?.role || '';
+    fields.message.value = profile?.message || '';
+    fields.order.value = profile?.order ?? 30;
+    fields.active.checked = profile?.active !== false;
+    fields.photo.value = '';
+    fields.removePhoto.checked = false;
+    const photo = profile?.photo_url || '';
+    preview.hidden = !/^https:\/\//i.test(photo);
+    removeLabel.hidden = preview.hidden;
+    if (preview.hidden) preview.removeAttribute('src');
+    else preview.src = photo;
+    status.textContent = '';
+  }
+
+  populateOptions();
+  loadProfile();
+  select.onchange = loadProfile;
+  form.onsubmit = async event => {
+    event.preventDefault();
+    const existing = DATA.leadership.find(item => item.id === select.value);
+    const photo = fields.photo.files[0];
+    const profile = {
+      id: existing?.id || crypto.randomUUID(),
+      name: fields.profileName.value.trim(),
+      role: fields.profileRole.value.trim(),
+      message: fields.message.value.trim(),
+      order: Number(fields.order.value) || 0,
+      active: fields.active.checked,
+      photo_url: fields.removePhoto.checked ? null : existing?.photo_url || null
+    };
+    const controls = [select, ...Array.from(fields)];
+    controls.forEach(control => { control.disabled = true; });
+    status.textContent = 'Saving…';
+    try {
+      if (!profile.name || !profile.role) throw new Error('Name and role are required.');
+      if (photo) {
+        if (!['image/jpeg', 'image/png', 'image/webp'].includes(photo.type)) {
+          throw new Error('Use a JPG, PNG or WebP image.');
+        }
+        profile.photo_url = (await uploadFile(photo, 'leadership')).url;
+      }
+      await saveLeadershipProfile(profile);
+      DATA.leadership = [...DATA.leadership.filter(item => item.id !== profile.id), profile]
+        .sort((a, b) => (a.order || 0) - (b.order || 0));
+      populateOptions(profile.id);
+      loadProfile();
+      status.textContent = 'Profile saved.';
+    } catch (error) {
+      status.textContent = 'Could not save profile. ' + error.message;
     } finally {
       controls.forEach(control => { control.disabled = false; });
     }
