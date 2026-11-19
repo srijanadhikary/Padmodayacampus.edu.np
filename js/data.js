@@ -159,3 +159,21 @@ async function loadData() {
 }
 
 function resetData() { /* Database is authoritative; reset is intentionally disabled. */ }
+
+async function loadNews(includeDrafts = false) {
+  const client = await initSupabase();
+  const query = client.from('campus_news').select('*');
+  if (!includeDrafts) query.eq('published', true);
+  const { data, error } = await query.order('article_date', { ascending: false })
+    .order('updated_at', { ascending: false });
+  if (error) throw error;
+  return data || [];
+}
+
+async function saveNews(article) {
+  const client = await initSupabase();
+  const { data, error } = await client.from('campus_news')
+    .upsert({ ...article, updated_at: new Date().toISOString() }).select().single();
+  if (error) throw error;
+  return data;
+}

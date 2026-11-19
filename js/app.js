@@ -31,7 +31,8 @@ function renderRoute() {
   const hash = location.hash.slice(1);
   const target = document.getElementById(hash);
   const detail = target?.matches('.faculty-group, .program-choice') ? target : null;
-  const pageId = detail ? 'programs' : document.getElementById('page-' + hash) ? hash : 'home';
+  const newsId = /^news-[0-9a-f-]{36}$/i.test(hash) ? hash.slice(5) : '';
+  const pageId = newsId ? 'news' : detail ? 'programs' : document.getElementById('page-' + hash) ? hash : 'home';
   document.querySelectorAll('.page').forEach(page => {
     page.classList.toggle('active', page.id === 'page-' + pageId);
   });
@@ -41,6 +42,7 @@ function renderRoute() {
     if (active) link.setAttribute('aria-current', 'page');
     else link.removeAttribute('aria-current');
   });
+  renderNewsArticle(newsId);
   document.getElementById('navLinks').classList.remove('open');
   document.querySelector('.nav-toggle').setAttribute('aria-expanded', 'false');
   document.querySelectorAll('.faculty-selector details').forEach(item => {
@@ -110,6 +112,72 @@ function dismissPopup(e){if(e&&e.target&&e.target.closest('.modal'))return;docum
 function openNoticeDetail(n){const p=PRIORITY_COLORS[n.priority]||PRIORITY_COLORS.normal;document.getElementById('detailDate').textContent=n.date;document.getElementById('detailTitle').textContent=n.title;document.getElementById('detailContent').textContent=n.content;document.getElementById('detailAttachment').innerHTML=attachmentHTML(n,'detail');const b=document.getElementById('detailPriority');b.className='badge '+p.label;b.textContent=n.priority;document.getElementById('noticeDetail').classList.add('open');}
 function closeNoticeDetail(e){if(e&&e.target&&e.target.closest('.modal'))return;document.getElementById('noticeDetail').classList.remove('open');}
 
-document.addEventListener('DOMContentLoaded',async()=>{document.getElementById('year').textContent=new Date().getFullYear();renderProgramContent(getPrograms());renderRoute();initSlider();try{DATA=await loadDataFromDB();}catch(e){DATA=await loadData();}renderSiteContent();renderLeadership(DATA.leadership || getLeadership());renderProgramContent(DATA.programs || getPrograms());renderSlider();renderNotices();renderDownloads();showLatestNoticePopup();});
+document.addEventListener('DOMContentLoaded',async()=>{document.getElementById('year').textContent=new Date().getFullYear();renderProgramContent(getPrograms());renderRoute();initSlider();initNews();try{DATA=await loadDataFromDB();}catch(e){DATA=await loadData();}renderSiteContent();renderLeadership(DATA.leadership || getLeadership());renderProgramContent(DATA.programs || getPrograms());renderSlider();renderNotices();renderDownloads();showLatestNoticePopup();});
 
 window.addEventListener('hashchange', renderRoute);
+
+let CAMPUS_NEWS = null;
+let NEWS_UNAVAILABLE = false;
+
+function newsPhoto(post, lazy = true) {
+  if (!/^https:\/\//i.test(post.photo_url || '')) return '';
+  return `<img src="${escapeHTML(post.photo_url)}" alt="${escapeHTML(post.photo_alt)}"${lazy ? ' loading="lazy"' : ''}>`;
+}
+
+function newsMetadata(post) {
+  const date = new Date(post.article_date + 'T00:00:00Z');
+  const label = new Intl.DateTimeFormat('en-GB', { dateStyle: 'medium', timeZone: 'UTC' }).format(date);
+  return `<p class="news-meta"><span>${escapeHTML(post.category)}</span> <time datetime="${escapeHTML(post.article_date)}">${label}</time></p>`;
+}
+
+function newsCard(post) {
+  const url = '#news-' + post.id;
+  return `<article class="news-card">
+    ${newsPhoto(post)}
+    <div class="news-card-copy">
+      ${newsMetadata(post)}
+      <h2><a href="${escapeHTML(url)}">${escapeHTML(post.headline)}</a></h2>
+      <p class="news-card-lead">${escapeHTML(post.lead)}</p>
+      <a class="link-btn" href="${escapeHTML(url)}" aria-label="Read ${escapeHTML(post.headline)}">Read article</a>
+    </div>
+  </article>`;
+}
+
+function renderNewsArticle(id) {
+  const article = document.getElementById('newsArticle');
+  document.getElementById('newsIndex').hidden = Boolean(id);
+  article.hidden = !id;
+  if (!id) return;
+  const post = CAMPUS_NEWS?.find(item => item.id === id);
+  const back = '<a class="link-btn" href="#news">All news and updates</a>';
+  if (!post) {
+    const status = NEWS_UNAVAILABLE ? 'News is temporarily unavailable.'
+      : CAMPUS_NEWS ? 'This article is unavailable.' : 'Loading article…';
+    article.innerHTML = back + `<p role="status">${status}</p>`;
+    return;
+  }
+  const photo = newsPhoto(post, false);
+  article.innerHTML = `${back}
+    ${newsMetadata(post)}
+    <h1 class="page-title">${escapeHTML(post.headline)}</h1>
+    <p class="news-byline">By ${escapeHTML(post.byline || 'Padmodaya Campus')}</p>
+    <p class="news-lead">${escapeHTML(post.lead)}</p>
+    ${photo ? `<figure>${photo}${post.photo_caption ? `<figcaption>${escapeHTML(post.photo_caption)}</figcaption>` : ''}</figure>` : ''}
+    <div class="news-body">${escapeHTML(post.body)}</div>`;
+}
+
+async function initNews() {
+  const index = document.getElementById('newsList');
+  try {
+    CAMPUS_NEWS = await loadNews();
+    index.innerHTML = CAMPUS_NEWS.map(newsCard).join('') || '<p>No news articles have been published yet.</p>';
+    document.getElementById('homeNews').hidden = !CAMPUS_NEWS.length;
+    document.getElementById('homeNewsList').innerHTML = CAMPUS_NEWS.slice(0, 3).map(newsCard).join('');
+  } catch (error) {
+    NEWS_UNAVAILABLE = true;
+    index.textContent = 'News is temporarily unavailable.';
+    console.warn('Could not load campus news.', error);
+  }
+  const hash = location.hash.slice(1);
+  if (/^news-[0-9a-f-]{36}$/i.test(hash)) renderNewsArticle(hash.slice(5));
+}
